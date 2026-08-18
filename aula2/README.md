@@ -6,3 +6,8 @@ do raio.
 > Qual a medida do raio (em cm)?
 
 > 5.30
+Saída:
+O programa deve exibir o perímetro
+calculado.
+> O perímetro da circunferência
+é 33.29 cm
