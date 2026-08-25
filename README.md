@@ -167,3 +167,235 @@ tipo_de_dado variavel = valor_inicial;
 
 - **Conversão implícita:** o compilador converte automaticamente. Ex.: `float media = (a + b)/2;` com `a` e `b` inteiros faz divisão inteira antes de converter, truncando o resultado (`3.00` em vez de `3.50`).
 - **Conversão explícita (casting):** o programador força a conversão. Ex.: `float media = (float)(a + b)/2;` — agora o resultado é `3.50`.
+
+## Aula 3 — Operadores e Expressões em Linguagem C
+
+### Revisão rápida
+
+Na aula passada vimos a estrutura do pseudocódigo (`algoritmo` / `declarações` / `inicio` / `fim`) e a estrutura básica de um programa em C (`#include`, `int main()`, bloco de instruções, `return 0;`).
+
+### Diretiva `#include`
+
+Toda diretiva em C começa com o símbolo `#` no início da linha. A diretiva `#include` inclui o conteúdo de outro arquivo dentro do programa atual — a linha com a diretiva é substituída pelo conteúdo do arquivo especificado.
+
+**Sintaxe:**
+```c
+#include <nome_do_arquivo>
+```
+
+**Principais arquivos `.h` da linguagem C:**
+
+| Arquivo | Descrição |
+|---|---|
+| `stdio.h` | Funções de entrada e saída (I/O) |
+| `string.h` | Funções de tratamento de strings |
+| `math.h` | Funções matemáticas |
+| `ctype.h` | Funções de teste e tratamento de caracteres |
+| `stdlib.h` | Funções de uso genérico |
+
+### Revisão: Tipos de Dados e Declaração de Variáveis
+
+| Classificação geral | Em C | Exemplo |
+|---|---|---|
+| inteiro | `int` | `int idade = 20;` |
+| real | `float` / `double` | `float altura = 1.75;` |
+| caractere | `char` | `char conceito = 'A';` |
+| lógico | `int` ou `bool` | `int aprovado = 1;` |
+
+**Comparação Pseudocódigo × C:**
+```
+inteiro idage, num1 int idage;
+real nota1, media float nota1, nota2, media;
+literal nome char conceito;
+logico aprovado
+```
+
+### Operadores: convenção para o pseudocódigo
+
+| Operador | Descrição |
+|---|---|
+| `+` | soma |
+| `-` | subtração |
+| `/` | divisão |
+| `*` | multiplicação |
+| `( )` | agrupar termos (alterar a precedência) |
+| `mod` ou `%` | resto da divisão |
+| `←` ou `=` | atribuir um valor (receber) |
+| `^` ou `**` | potência |
+| `< <= > >= <> ==` | operadores de relação (comparação) |
+| `E`, `OU`, `NÃO` | operadores lógicos |
+
+### Principais operadores aritméticos em C
+
+| Operação | Operador | Expressão algébrica | Exemplo em C (`x=5, y=3`) | Resultado |
+|---|---|---|---|---|
+| Adição | `+` | x + y | `x + y` | 8 |
+| Subtração | `-` | x − y | `x - y` | 2 |
+| Multiplicação | `*` | xy | `x * y` | 15 |
+| Divisão | `/` | x/y | `x / y` (com `y=2`) | 2 |
+| Resto da divisão | `%` | x mod y | `x % y` (com `y=2`) | 1 |
+| Incremento | `++` | x + 1 | `x++;` (com `x=5`) | 6 |
+| Decremento | `--` | x − 1 | `x--;` (com `x=5`) | 4 |
+
+**Dica:** em C, quando dois inteiros são divididos (`/`), o resultado também é inteiro (a parte decimal é descartada).
+
+```c
+int a = 7, b = 3;
+int soma = a + b; // 10
+int div = a / b; // 2
+int resto = a % b; // 1
+```
+
+**Observação:** os operadores seguem uma ordem de precedência — use parênteses `( )` para deixar a expressão mais clara.
+
+### Regra de precedência
+
+As operações aritméticas em pseudocódigo e em C obedecem às mesmas regras da matemática:
+
+1. As operações são resolvidas a partir dos parênteses mais internos até os mais externos.
+2. Primeiro resolvemos multiplicações, divisões e módulos.
+3. Por fim, resolvemos adições e subtrações.
+
+**Tabela de prioridade dos operadores aritméticos:**
+
+| Prioridade | Operador | Operação | Exemplo |
+|---|---|---|---|
+| 4º | `+` | soma | `a + b` |
+| 4º | `-` | subtração | `a - b` |
+| 3º | `*` | multiplicação | `a * b` |
+| 3º | `/` | divisão | `a / b` |
+| 2º | `mod` ou `%` | resto de divisão inteira | `a % b` |
+| 1º | `+` | manutenção de sinal | `+a` |
+| 1º | `-` | inversão de sinal | `-a` |
+
+> Numa expressão com operadores da mesma prioridade, as operações são executadas da esquerda para a direita. Em linguagens com operador de potência, ele tem prioridade maior que `+ - / *`.
+
+**Exemplos de avaliação:**
+```
+a = 5 + 3 * 2;
+   Primeiro: 3 * 2 = 6
+   Depois: 5 + 6 = 11
+   Resultado: 11
+
+b = 10 - 4 / 2 + 1;
+   Primeiro: 4 / 2 = 2
+   Depois: 10 - 2 = 8
+   Depois: 8 + 1 = 9
+   Resultado: 9
+
+c = -3 + 5 * (2 + 1);
+   Primeiro: (2 + 1) = 3
+   Depois: 5 * 3 = 15
+   Depois: -3 + 15 = 12
+   Resultado: 12
+```
+
+### Divisão inteira × divisão real
+
+O resultado de `7 / 2` **depende dos tipos envolvidos**:
+
+```c
+// Divisão inteira
+int a = 7;
+int b = 2;
+printf("%d", a/b); // Resultado: 3
+
+// Divisão real
+float a = 7;
+float b = 2;
+printf("%.1f", a/b); // Resultado: 3.5
+```
+
+### Operadores de atribuição e incremento
+
+A linguagem C possui operadores especiais resultantes da combinação de operadores aritméticos com operadores de atribuição:
+
+| Operador | Operação equivalente |
+|---|---|
+| `x += y` | `x = x + y` |
+| `x -= y` | `x = x - y` |
+| `x *= y` | `x = x * y` |
+| `x /= y` | `x = x / y` |
+| `x %= y` | `x = x % y` |
+| `x++` | `x = x + 1` |
+| `x--` | `x = x - 1` |
+
+### Precedência de sinais e operações — exemplos
+
+```
+3 * (4 + 5) = 27
+equivale a:
+4 + 5 = 9
+3 * 9 = 27
+
+3 * 4 + 5 = 17
+equivale a:
+3 * 4 = 12
+12 + 5 = 17
+```
+
+### Prioridade dos grupos de operadores
+
+Do menor para o maior nível de precedência na avaliação de uma expressão completa:
+
+| Operadores | Prioridade |
+|---|---|
+| Lógicos | 4º |
+| Relacionais | 3º |
+| Aritméticos | 2º |
+| Parênteses | 1º |
+
+*(ou seja: parênteses são resolvidos primeiro, depois os aritméticos, depois os relacionais e por último os lógicos)*
+
+### Funções matemáticas
+
+**Convenção para o pseudocódigo:**
+```
+sen(x)
+cos(x)
+tan(x) ou tg(x)
+arcsen(x) ou sen⁻¹(x)
+arccos(x) ou cos⁻¹(x)
+arctg(x) ou arctan(x) ou tg⁻¹(x)
+log(x)
+ln(x)
+raiz(x)
+```
+> As linguagens de programação são rigorosas quanto à sintaxe — sempre verifique a sintaxe correta na linguagem escolhida.
+
+**Funções matemáticas na linguagem C (biblioteca `math.h`):**
+
+| Função | Descrição |
+|---|---|
+| `sqrt(x)` | raiz quadrada |
+| `pow(x,y)` | potência |
+| `fabs(x)` | valor absoluto |
+| `ceil(x)` | arredonda para cima |
+| `floor(x)` | arredonda para baixo |
+| `round(x)` | arredondamento |
+| `log10(x)` | logaritmo decimal |
+| `sin(x)` | seno |
+| `cos(x)` | cosseno |
+| `tan(x)` | tangente |
+
+**Exemplos:**
+```c
+printf("%.2f\n", sqrt(25)); // Resultado: 5.00
+printf("%.2f\n", pow(2,5)); // Resultado: 32.00
+```
+
+Para usar a biblioteca `math`, é preciso incluí-la:
+```c
+#include <math.h>
+```
+
+Muitas funções matemáticas retornam um valor do tipo `double`. Funciona armazenar em `int`, mas o mais adequado é usar `double`:
+```c
+int a = pow(2,5); // funciona, mas não é o ideal
+double a = pow(2,5); // mais adequado
+```
+
+> **OBS:** No Linux (e WSL), ao usar funções da biblioteca matemática, normalmente é necessário adicionar a opção `-lm` ao compilar:
+> ```
+> gcc programa.c -o programa -lm
+> ```
