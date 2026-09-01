@@ -406,7 +406,7 @@ Nesta aula foram estudadas as estruturas utilizadas para controlar o fluxo de ex
 
 ### Estrutura Sequencial
 
-Na estrutura sequencial, os comandos são executados em uma ordem predefinida. Um comando só é executado após o término do comando anterior.
+Na estrutura sequencial, os comandos são executados em uma ordem predefinida. Cada comando é executado somente após o término do comando anterior.
 
 ### Operadores Relacionais
 
@@ -435,11 +435,11 @@ Principais operadores:
 
 Os operadores lógicos permitem combinar ou negar condições.
 
-| Operador | Significado |   |    |
-| -------- | ----------- | - | -- |
-| `&&`     | E           |   |    |
-| `        |             | ` | OU |
-| `!`      | NÃO         |   |    |
+| Operador | Significado |
+| -------- | ----------- |
+| `&&`     | E           |
+| `\|\|`   | OU          |
+| `!`      | NÃO         |
 
 Exemplo:
 
@@ -502,7 +502,7 @@ if (numero % 2 == 0) {
 
 ### Estruturas de Decisão Aninhadas
 
-As estruturas aninhadas são utilizadas quando é necessário testar várias condições.
+As estruturas aninhadas são utilizadas quando várias condições devem ser testadas.
 
 ```c
 if (condicao1) {
@@ -514,7 +514,7 @@ if (condicao1) {
 }
 ```
 
-Esse tipo de estrutura foi utilizado em exercícios que envolvem diferentes classificações, como aprovação de alunos e categorias de IMC.
+Esse tipo de estrutura pode ser utilizado em exercícios que envolvem diferentes classificações, como aprovação de alunos e categorias de IMC.
 
 ### Boas Práticas com `if`
 
