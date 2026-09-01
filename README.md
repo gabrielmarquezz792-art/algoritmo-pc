@@ -399,3 +399,154 @@ double a = pow(2,5); // mais adequado
 > ```
 > gcc programa.c -o programa -lm
 > ```
+
+## Aula 4 - Estruturas de Decisão
+
+Nesta aula foram estudadas as estruturas utilizadas para controlar o fluxo de execução de um programa. Diferentemente da estrutura sequencial, as estruturas de decisão permitem que o programa escolha diferentes caminhos de acordo com condições estabelecidas.
+
+### Estrutura Sequencial
+
+Na estrutura sequencial, os comandos são executados em uma ordem predefinida. Um comando só é executado após o término do comando anterior.
+
+### Operadores Relacionais
+
+Os operadores relacionais são utilizados para comparar valores. O resultado de uma comparação é sempre lógico:
+
+* `1` para verdadeiro
+* `0` para falso
+
+Principais operadores:
+
+| Operador | Significado      |
+| -------- | ---------------- |
+| `==`     | Igual a          |
+| `!=`     | Diferente de     |
+| `>`      | Maior que        |
+| `<`      | Menor que        |
+| `>=`     | Maior ou igual a |
+| `<=`     | Menor ou igual a |
+
+É importante não confundir:
+
+* `=` → operador de atribuição
+* `==` → operador de comparação
+
+### Operadores Lógicos
+
+Os operadores lógicos permitem combinar ou negar condições.
+
+| Operador | Significado |   |    |
+| -------- | ----------- | - | -- |
+| `&&`     | E           |   |    |
+| `        |             | ` | OU |
+| `!`      | NÃO         |   |    |
+
+Exemplo:
+
+```c
+if (nota >= 6 && frequencia >= 75) {
+    printf("Aluno aprovado");
+}
+```
+
+### Prioridade dos Operadores
+
+A prioridade apresentada durante a aula é:
+
+1. Parênteses
+2. Operadores aritméticos
+3. Operadores relacionais
+4. Operadores lógicos
+
+Os parênteses podem ser utilizados para deixar as expressões mais claras e controlar a ordem das operações.
+
+### Estrutura de Decisão Simples - `if`
+
+A estrutura `if` executa um bloco de código somente quando uma condição for verdadeira.
+
+```c
+if (condicao) {
+    // comandos executados se a condição for verdadeira
+}
+```
+
+Exemplo:
+
+```c
+if (numero % 2 == 0) {
+    printf("O número é par");
+}
+```
+
+### Estrutura de Decisão Composta - `if-else`
+
+A estrutura `if-else` permite executar um bloco quando a condição é verdadeira e outro quando ela é falsa.
+
+```c
+if (condicao) {
+    // executado se verdadeiro
+} else {
+    // executado se falso
+}
+```
+
+Exemplo:
+
+```c
+if (numero % 2 == 0) {
+    printf("Par");
+} else {
+    printf("Ímpar");
+}
+```
+
+### Estruturas de Decisão Aninhadas
+
+As estruturas aninhadas são utilizadas quando é necessário testar várias condições.
+
+```c
+if (condicao1) {
+    // primeira situação
+} else if (condicao2) {
+    // segunda situação
+} else {
+    // demais situações
+}
+```
+
+Esse tipo de estrutura foi utilizado em exercícios que envolvem diferentes classificações, como aprovação de alunos e categorias de IMC.
+
+### Boas Práticas com `if`
+
+As condições do `if` devem estar entre parênteses.
+
+```c
+if (nota >= 6) {
+    printf("Aprovado");
+}
+```
+
+Mesmo quando existe apenas uma instrução, é recomendado utilizar chaves `{}` para melhorar a legibilidade e evitar erros futuros.
+
+### Estrutura `switch-case`
+
+A estrutura `switch-case` é utilizada quando existem várias alternativas baseadas no valor de uma única variável.
+
+```c
+switch (opcao) {
+    case 1:
+        // comandos
+        break;
+
+    case 2:
+        // comandos
+        break;
+
+    default:
+        // comandos para valores não previstos
+}
+```
+
+O comando `break` é utilizado para impedir que os próximos casos sejam executados indevidamente.
+
+A opção `default` é utilizada para tratar valores que não correspondem a nenhum dos casos definidos.
