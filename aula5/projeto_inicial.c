@@ -12,7 +12,7 @@ int main(void) {
     float preco_kit, outros_custos, orcamento;
 
     // Variáveis de Processamento
-    int qte_times, computadores_faltantes;
+    int qte_times;
     float consumo_energia, custo_energia;
     float custo_alimentacao, custo_total;
     float custo_por_participante, saldo;
