@@ -6,12 +6,12 @@
 int main(void) {
     setlocale(LC_CTYPE, "");
 
-    // Variáveis de Entradas
+    // VariÃ¡veis de Entradas
     int qte_participantes, qte_jogadores_por_time, qte_computadores;
     float potencia, duracao, preco_kwh;
     float preco_kit, outros_custos, orcamento;
 
-    // Variáveis de Processamento
+    // VariÃ¡veis de Processamento
     int qte_times, computadores_faltantes;
     float consumo_energia, custo_energia;
     float custo_alimentacao, custo_total;
@@ -26,28 +26,28 @@ int main(void) {
     printf("Digite a quantidade de jogadores por time: ");
     scanf("%d", &qte_jogadores_por_time);
 
-    printf("Digite a quantidade de computadores disponíveis: ");
+    printf("Digite a quantidade de computadores disponÃ­veis: ");
     scanf("%d", &qte_computadores);
 
-    printf("Digite a potência média de cada computador (em W): ");
+    printf("Digite a potÃªncia mÃ©dia de cada computador (em W): ");
     scanf("%f", &potencia);
 
-    printf("Digite a duração do evento (em horas): ");
+    printf("Digite a duraÃ§Ã£o do evento (em horas): ");
     scanf("%f", &duracao);
 
-    printf("Digite o preço de 1 kWh de energia (em R$): ");
+    printf("Digite o preÃ§o de 1 kWh de energia (em R$): ");
     scanf("%f", &preco_kwh);
 
-    printf("Digite o preço de 1 kit de alimentação por participante (em R$): ");
+    printf("Digite o preÃ§o de 1 kit de alimentaÃ§Ã£o por participante (em R$): ");
     scanf("%f", &preco_kit);
 
     printf("Digite outros custos do evento (em R$): ");
     scanf("%f", &outros_custos);
 
-    printf("Digite o orçamento máximo disponível para o evento (em R$): ");
+    printf("Digite o orÃ§amento mÃ¡ximo disponÃ­vel para o evento (em R$): ");
     scanf("%f", &orcamento);
 
-    // Cálculos
+    // CÃ¡lculos
     qte_times = ceil(qte_participantes / qte_jogadores_por_time);
 
     consumo_energia = (qte_computadores * potencia * duracao)/1000;
@@ -65,8 +65,8 @@ int main(void) {
     // Relatorio geral
     printf("\n\n============== ARENA TECH ==============\n");
     printf("Participantes: %d\n", qte_participantes);
-    printf("Times necessários: %d\n", qte_times);
-    printf("Computadores disponíveis: %d\n", qte_computadores);
+    printf("Times necessÃ¡rios: %d\n", qte_times);
+    printf("Computadores disponÃ­veis: %d\n", qte_computadores);
 
     // Analise da infraestrutura
     if (qte_computadores >= qte_participantes) {
@@ -77,22 +77,22 @@ int main(void) {
          infraestrutura = 0;
     }
 
-    printf("\n\n Consumo estimado: %.2f", consumo_energia);
+    printf("\n\nConsumo estimado: %.2f", consumo_energia);
 
     if (consumo_energia <= 20) {
-        printf("\nClassificação do consumo: BAIXO");
+        printf("\nClassificaÃ§Ã£o do consumo: BAIXO");
         tipo_consumo = 0;
     } else if (consumo_energia <= 40) {
-        printf("\nClassificação do consumo: MODERADO");
+        printf("\nClassificaÃ§Ã£o do consumo: MODERADO");
         tipo_consumo = 1;
     } else if (consumo_energia > 40) {
-        printf("\nClassificação do consumo: ALTO");
+        printf("\nClassificaÃ§Ã£o do consumo: ALTO");
         tipo_consumo = 2;
     }
 
     printf("\nCusto da energia: R$ %.2f\n", custo_energia);
 
-    printf("Custo da alimentação: R$ %.2f\n", custo_alimentacao);
+    printf("Custo da alimentaÃ§Ã£o: R$ %.2f\n", custo_alimentacao);
 
     printf("Outros custos: R$ %.2f\n", outros_custos);
 
@@ -100,24 +100,24 @@ int main(void) {
 
     printf("CUSTO POR PARTICIPANTE: R$ %.2f\n",custo_por_participante);
 
-    printf("\n\nOrçamento disponível: R$ %.2f\n", orcamento);
+    printf("\n\nOrÃ§amento disponÃ­vel: R$ %.2f\n", orcamento);
 
     printf("Saldo: R$ %.2f\n", saldo);
 
     if (custo_total > orcamento) {
-        printf("Situação do orçamento: ACIMA DO ORÇAMENTO");
+        printf("SituaÃ§Ã£o do orÃ§amento: ACIMA DO ORÃ‡AMENTO");
     } else if (custo_total <= orcamento && saldo <= (orcamento * 0.05)) {
-        printf("Situação do orçamento: NO LIMITE DO ORÇAMENTO");
+        printf("SituaÃ§Ã£o do orÃ§amento: NO LIMITE DO ORÃ‡AMENTO");
     } else {
-        printf("Situação do orçamento: DENTRO DO ORÇAMENTO");
+        printf("SituaÃ§Ã£o do orÃ§amento: DENTRO DO ORÃ‡AMENTO");
     }
 
     if (infraestrutura == 0 || custo_total > orcamento) {
-        printf("\nDECISÃO FINAL: NÃO RECOMENDADO");
+        printf("\nDECISÃƒO FINAL: NÃƒO RECOMENDADO");
     } else if (infraestrutura == 1 && custo_total <= orcamento && tipo_consumo == 2) {
-        printf("\nDECISÃO FINAL: APROVADO COM RESSALVAS");
+        printf("\nDECISÃƒO FINAL: APROVADO COM RESSALVAS");
     } else if (infraestrutura == 1 && custo_total <= orcamento) {
-        printf("\nDECISÃO FINAL: APROVADO");
+        printf("\nDECISÃƒO FINAL: APROVADO");
     }
 
     printf("\n=======================================\n\n");
