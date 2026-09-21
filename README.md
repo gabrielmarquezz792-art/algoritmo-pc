@@ -705,4 +705,3 @@ Após o feedback: escolher ao menos uma melhoria, aplicá-la (ou justificar por 
 - personalizar o relatório com nome, data e identidade visual da Arena Tech.
 
 ---
-*Desenvolver → Testar → Explicar → Avaliar → Melhorar*
