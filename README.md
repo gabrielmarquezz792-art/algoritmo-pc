@@ -22,7 +22,6 @@ O repositório está organizado por aula, com subpastas para cada exercício ou 
 ## Sumário
 
 - [Objetivo do repositório](#objetivo-do-repositório)
-- [Organização das pastas](#organização-das-pastas)
 - [Aula 2 - Introdução à Linguagem C](#aula-2---introdução-à-linguagem-c)
 - [Aula 3 - Operadores e Expressões em Linguagem C](#aula-3--operadores-e-expressões-em-linguagem-c)
 - [Aula 4 - Estruturas de Decisão](#aula-4---estruturas-de-decisão)
