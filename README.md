@@ -1,5 +1,15 @@
 # Algoritmos e Pensamento Computacional
-Aula do melhor professor Marco Antonio que existe
+Algoritmos e Pensamento Computacional
+
+Estudante: Gabriel Disciplina: Algoritmos e Pensamento Computacional Semestre: 2º semestre de 2026 Professor: Marco Sanches Universidade: Universidade Cruzeiro do Sul
+
+Objetivo do repositório
+
+Este repositório reúne as atividades práticas desenvolvidas ao longo da disciplina de Algoritmos e Pensamento Computacional, incluindo exercícios de aula, projetos práticos e a documentação de cada etapa, conforme os critérios da Avaliação Contínua definidos pelo professor.
+
+Organização das pastas
+
+O repositório está organizado por aula, com subpastas para cada exercício ou projeto realizado
 
 ## Aula 2 - Introdução à Linguagem c
 
