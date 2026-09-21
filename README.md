@@ -1,15 +1,32 @@
 # Algoritmos e Pensamento Computacional
 Algoritmos e Pensamento Computacional
 
-Estudante: Gabriel Disciplina: Algoritmos e Pensamento Computacional Semestre: 2º semestre de 2026 Professor: Marco Sanches Universidade: Universidade Cruzeiro do Sul
+Estudante: Gabriel Marques Avalo da Silva 
 
-Objetivo do repositório
+Disciplina: Algoritmos e Pensamento Computacional 
+
+Semestre: 2º semestre de Ciência da Computação 
+
+Professor: Marco Antonio Sanches Anastacio 
+
+Universidade: Universidade Cruzeiro do Sul
+
+## Objetivo do repositório
 
 Este repositório reúne as atividades práticas desenvolvidas ao longo da disciplina de Algoritmos e Pensamento Computacional, incluindo exercícios de aula, projetos práticos e a documentação de cada etapa, conforme os critérios da Avaliação Contínua definidos pelo professor.
 
-Organização das pastas
+## Organização das pastas
 
-O repositório está organizado por aula, com subpastas para cada exercício ou projeto realizado
+O repositório está organizado por aula, com subpastas para cada exercício ou projeto realizado.
+
+## Sumário
+
+- [Objetivo do repositório](#objetivo-do-repositório)
+- [Organização das pastas](#organização-das-pastas)
+- [Aula 2 - Introdução à Linguagem C](#aula-2---introdução-à-linguagem-c)
+- [Aula 3 - Operadores e Expressões em Linguagem C](#aula-3--operadores-e-expressões-em-linguagem-c)
+- [Aula 4 - Estruturas de Decisão](#aula-4---estruturas-de-decisão)
+- [Aula 5 - Projeto Arena Tech](#aula-5---projeto-arena-tech-planejamento-e-viabilidade-da-maratona-gamer)
 
 ## Aula 2 - Introdução à Linguagem c
 
