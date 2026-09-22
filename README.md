@@ -26,6 +26,7 @@ O repositório está organizado por aula, com subpastas para cada exercício ou 
 - [Aula 3 - Operadores e Expressões em Linguagem C](#aula-3--operadores-e-expressões-em-linguagem-c)
 - [Aula 4 - Estruturas de Decisão](#aula-4---estruturas-de-decisão)
 - [Aula 5 - Projeto Arena Tech](#aula-5---projeto-arena-tech-planejamento-e-viabilidade-da-maratona-gamer)
+- [Aula 6 - Estruturas de Repetição](#aula-6---estruturas-de-repetição)
 
 ## Aula 2 - Introdução à Linguagem c
 
@@ -704,4 +705,149 @@ Após o feedback: escolher ao menos uma melhoria, aplicá-la (ou justificar por 
 - mensagens mais detalhadas explicando a decisão final;
 - personalizar o relatório com nome, data e identidade visual da Arena Tech.
 
----
+## Aula 6 - Estruturas de Repetição
+
+Nesta aula foram estudadas as **estruturas de repetição (loops)**, que permitem executar um bloco de instruções **várias vezes**, enquanto uma condição for verdadeira. Elas evitam repetir código desnecessariamente, tornam os programas mais eficientes e facilitam a solução de problemas repetitivos.
+
+### Ideia-chave do loop
+
+1. Execute o bloco de instruções.
+2. Verifique a condição.
+   - Se for verdadeira → repita tudo.
+   - Se for falsa → continue para a próxima instrução do programa.
+
+### Estruturas de repetição em pseudocódigo x em C
+
+| Pseudocódigo | Em C | Funcionamento |
+|---|---|---|
+| `enquanto` | `while` | Testa a condição **antes** de executar o bloco (pré-teste). |
+| `para` | `for` | Reúne inicialização, condição e atualização em uma única linha. |
+| `faça...enquanto` | `do...while` | Executa o bloco **pelo menos uma vez** e só depois testa a condição (pós-teste). |
+
+### As três partes de todo laço
+
+Independente do tipo, todo loop é constituído de três partes:
+
+1. **Inicialização** — define a(s) variável(is) de controle.
+2. **Condição** — verifica se a repetição deve continuar.
+3. **Atualização** — altera a(s) variável(is) de controle, garantindo que o laço eventualmente termine.
+
+> ⚠️ **Atenção:** se a condição nunca se tornar falsa, o resultado é um **loop infinito**.
+
+### `while` (laço condicional / pré-teste)
+
+Usado quando **não se sabe** previamente quantas repetições serão necessárias.
+
+    #include <stdio.h>
+
+    int main() {
+        int i = 1;
+        while (i <= 5) {
+            printf("Número: %d\n", i);
+            i++;
+        }
+        return 0;
+    }
+
+### `for` (laço contado)
+
+Usado quando **se sabe exatamente** o número de vezes que o bloco deve ser executado. É compacto porque inicialização, condição e atualização ficam reunidas na declaração do laço.
+
+    for (inicialização; condição; atualização) {
+        // bloco de instruções
+    }
+
+    #include <stdio.h>
+
+    int main() {
+        for (int i = 0; i < 10; i++) {
+            printf("Contando %d\n", i);
+        }
+        return 0;
+    }
+
+### `do...while` (pós-teste)
+
+Executa o bloco **pelo menos uma vez**, mesmo que a condição seja falsa desde o início, pois a verificação só ocorre ao final da repetição.
+
+    #include <stdio.h>
+
+    int main() {
+        int i = 1;
+        do {
+            printf("Número: %d\n", i);
+            i++;
+        } while (i <= 5);
+        return 0;
+    }
+
+> ⚠️ **Atenção:** há ponto e vírgula obrigatório após `while(condição);` no `do...while`.
+
+### Laços contados x laços condicionais
+
+| Tipo | Como funciona | Quando usar |
+|---|---|---|
+| **Contado** | Um contador controla a repetição até atingir um limite estipulado na condição. | Quando se sabe exatamente ou há um limite definido de repetições. |
+| **Condicional** | Usa uma variável com valor predefinido testada em uma condição dentro do laço. | Quando não se sabe a quantidade de repetições previamente. |
+
+### Loops aninhados
+
+Ocorrem quando um loop está **dentro de outro**. São úteis para trabalhar com estruturas complexas, como matrizes.
+
+    for (int i = 0; i < 3; i++) {       // loop externo: percorre as linhas
+        for (int j = 0; j < 4; j++) {   // loop interno: percorre as colunas
+            printf("%d ", matriz[i][j]);
+        }
+        printf("\n");
+    }
+
+> 💡 **Dica:** para cada repetição do loop externo, o loop interno executa **todas** as suas repetições.
+
+### Loops de consistência (validação de entrada)
+
+Repetem-se até que uma condição de validade seja atendida — muito usados para validar dados digitados pelo usuário.
+
+    #include <stdio.h>
+
+    int main() {
+        float nota;
+        do {
+            printf("Digite a nota do aluno: ");
+            scanf("%f", &nota);
+            if (nota < 0 || nota > 10) {
+                printf("Nota inválida!\n");
+            }
+        } while (nota < 0 || nota > 10);
+
+        printf("Nota válida: %.1f\n", nota);
+        return 0;
+    }
+
+> ⚠️ **Atenção:** o laço continua enquanto o dado for inválido e termina quando a entrada se torna válida.
+
+### Instruções `break` e `continue`
+
+| Instrução | O que faz |
+|---|---|
+| `break` (pare) | Interrompe o laço **imediatamente**, saindo dele e seguindo para a próxima instrução após o loop. |
+| `continue` | **Não encerra** o loop; apenas ignora o restante da iteração atual e passa para o próximo ciclo. |
+
+    // break: encerra o loop ao encontrar o valor 0
+    int soma = 0, num;
+    while (1) {
+        printf("Digite um número: ");
+        scanf("%d", &num);
+        if (num == 0) {
+            break;
+        }
+        soma += num;
+    }
+    printf("Soma = %d\n", soma);
+
+    // continue: pula os números pares e imprime apenas os ímpares
+    for (int i = 0; i <= 10; i++) {
+        if (i % 2 == 0) {
+            continue;
+        }
+        printf("%d ", i);
+    }
