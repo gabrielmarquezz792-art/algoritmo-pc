@@ -27,6 +27,7 @@ O repositório está organizado por aula, com subpastas para cada exercício ou 
 - [Aula 4 - Estruturas de Decisão](#aula-4---estruturas-de-decisão)
 - [Aula 5 - Projeto Arena Tech](#aula-5---projeto-arena-tech-planejamento-e-viabilidade-da-maratona-gamer)
 - [Aula 6 - Estruturas de Repetição](#aula-6---estruturas-de-repetição)
+- [Aula 7 - Projeto Missão Orbital e Exercícios de Revisão](#aula-7---projeto-missão-orbital-e-exercícios-de-revisão)
 
 ## Aula 2 - Introdução à Linguagem c
 
@@ -851,3 +852,111 @@ Repetem-se até que uma condição de validade seja atendida — muito usados pa
         }
         printf("%d ", i);
     }
+
+## Aula 7 - Projeto Missão Orbital e Exercícios de Revisão
+
+Esta aula foi dividida em **duas partes**, cada uma com seu próprio prazo de entrega pelo Blackboard: o **Projeto 3 - Missão Orbital** (em equipe) e os **Exercícios de revisão sobre estruturas de repetição** (individuais).
+
+### Parte 1 - Projeto 3: Missão Orbital
+
+**Contexto:** a Agência Orbital está selecionando equipes para uma missão de exploração. Cada cadete realiza três etapas de treinamento; o sistema deve receber as pontuações, impedir valores inválidos, calcular o desempenho e informar a classificação final. Ao término, o operador pode iniciar o treinamento de outro cadete ou encerrar o programa.
+
+**Objetivo:** desenvolver, testar e explicar um programa em C que combine estruturas condicionais e laços de repetição em uma situação completa e curta.
+
+**Modalidade:** individual ou em grupos de até 3 alunos. Entrega pelo link "Projeto 3 - Missão Orbital" no Blackboard, até **29/09/2026, 23h59**. Mesmo em equipe, cada integrante deve entregar individualmente, identificando os nomes dos demais componentes.
+
+#### Conteúdos mobilizados
+
+| Conteúdo | Aplicação no programa |
+|---|---|
+| Condicionais | Classificar o desempenho e reconhecer a pontuação máxima |
+| `for` | Controlar as três etapas do treinamento |
+| `while` | Repetir a leitura enquanto a pontuação estiver fora do intervalo de 0 a 100 |
+| `do...while` | Permitir o treinamento de outro cadete antes de encerrar o sistema |
+| Contador e acumulador | Identificar a etapa atual e calcular a pontuação total |
+
+#### Dados do programa
+
+| Variável sugerida | Finalidade | Tipo |
+|---|---|---|
+| `codigo_cadete` | Identificação numérica do participante | `int` |
+| `etapa` | Controla as três etapas do treinamento | `int` |
+| `pontuacao` | Pontuação digitada em cada etapa, de 0 a 100 | `int` |
+| `pontuacao_total` | Acumula as três pontuações | `int` |
+| `media` | Armazena a média das etapas | `float` |
+| `continuar` | Indica se outro cadete será avaliado | `int` |
+
+#### Funcionamento obrigatório
+
+1. Ler o código numérico do cadete e zerar o total (entrada e atribuição).
+2. Executar exatamente três etapas de treinamento (`for`).
+3. Aceitar somente pontuações entre 0 e 100; valores inválidos devem ser solicitados novamente (`while`).
+4. Somar as pontuações e calcular a média real (acumulador).
+5. Classificar o desempenho conforme a tabela abaixo (`if/else`).
+6. Perguntar se o operador deseja avaliar outro cadete (`do...while`).
+
+#### Classificação do treinamento
+
+| Média | Resultado | Mensagem sugerida |
+|---|---|---|
+| 85,0 ou mais | Comandante da missão | Treinamento concluído com excelência |
+| 70,0 a 84,99 | Piloto aprovado | Cadete autorizado para a missão |
+| 50,0 a 69,99 | Cadete em recuperação | Novo treinamento recomendado |
+| Abaixo de 50,0 | Treinamento reiniciado | Cadete ainda não autorizado |
+
+> ⚠️ **Condição adicional:** se o total for igual a 300 pontos, exibir também `PONTUAÇÃO MÁXIMA!`, controlada por uma condicional simples.
+
+#### Testes mínimos
+
+| Teste | Pontuações | Média | Resultado esperado |
+|---|---|---|---|
+| 1 | 85, 70 e 95 | 83,33 | Piloto aprovado |
+| 2 | 90, 85 e 95 | 90,00 | Comandante da missão |
+| 3 | 40, 50 e 55 | 48,33 | Treinamento reiniciado |
+| Validação | 120, depois 80 | - | Recusar 120 e aceitar 80 |
+
+#### Regras importantes
+
+- Não é necessário utilizar vetores, matrizes, funções próprias ou manipulação de arquivos.
+- Nomes de variáveis claros, indentação correta e mensagens que orientem o usuário.
+- Todos os integrantes devem compreender o programa e conseguir explicar sua parte.
+- O uso de IA é permitido como apoio, desde que declarado (parte utilizada e finalidade).
+
+#### O que deve ser entregue
+
+- Arquivo `projeto2_missao_orbital.c`, compilado e testado.
+- Captura de tela com uma execução completa.
+- Nomes e RGMs dos integrantes em comentário no início do código.
+- Envio pelo link do Blackboard, dentro do prazo.
+
+#### Desafios extras opcionais
+
+- Contar quantas etapas tiveram pontuação igual ou superior a 80.
+- Exibir a maior e a menor pontuação sem utilizar vetores.
+- Validar também a resposta 1-Sim ou 0-Não.
+- Personalizar o relatório com nome da nave e código da missão.
+
+### Parte 2 - Exercícios de revisão: Estruturas de Repetição
+
+Atividade **individual**, destinada à resolução de exercícios de revisão sobre `for`, `while` e `do...while`. Antes de programar, é preciso identificar os dados de entrada, os processamentos necessários, as condições envolvidas e a estrutura de repetição mais adequada para cada problema, além de executar e testar as soluções antes da entrega.
+
+Entrega pelo link "Aula 07" no Blackboard, até **28/09/2026, 23h59**.
+
+Os enunciados dos quatro exercícios propostos estão reunidos separadamente em `README_aula7_enunciados.md`.
+
+### Cheat sheet: estruturas de repetição em C
+
+| Estrutura | Uso | Regra |
+|---|---|---|
+| `while` (pré-teste) | Quando não se sabe o número de repetições | Testa a condição antes de executar o bloco |
+| `do...while` (pós-teste) | Quando é preciso executar ao menos uma vez | Testa a condição após executar o bloco (atenção ao `;` final) |
+| `for` (determinado) | Quando se sabe previamente a quantidade de iterações | Reúne inicialização, condição e atualização |
+
+**Padrões comuns:**
+
+- **Contador:** registra quantas vezes um evento ocorreu (`if (i % 2 == 0) contador++;`).
+- **Acumulador:** armazena soma ou total progressivo (`soma += valor;`).
+- **Validação:** repete até receber um dado válido (`while (idade < 0 || idade > 120)`).
+- **Aninhado:** loop dentro de loop, útil para matrizes/grades.
+
+> 🏆 **Regra de ouro:** todo loop exige inicialização, condição e atualização. Garanta que a condição se torne falsa em algum momento para evitar loop infinito.
