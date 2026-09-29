@@ -1,17 +1,22 @@
 #include <stdio.h>
 #include <locale.h>
 
+//Integrantes:
+// Gabriel Marques Avalo da Silva | RGM: 47393441
+// V√≠ctor Gabriel da Silva Santos | RGM: 47454733
+// Morgana Antonelli Silva        | RGM: 47794089
+
 int main() {
     setlocale(LC_CTYPE, "");
 
-    // Vari·veis
+    // Vari√°veis
     int codigo_cadete, etapa, pontuacao, pontuacao_total, continuar;
     float media;
 
-    // Do While para fazer quantos cadetes o usu·rio quiser
+    // Do While para fazer quantos cadetes o usu√°rio quiser
     do {
-        printf("===== MISS√O ORBITAL =====\n");
-        printf("CÛdigo do cadete: ");
+        printf("===== MISS√ÉO ORBITAL =====\n");
+        printf("C√≥digo do cadete: ");
         scanf("%d", &codigo_cadete);
         printf("\n");
 
@@ -19,9 +24,9 @@ int main() {
 
         // For para fazer exatamente 3 etapas por cadete
         for (etapa = 1; etapa <= 3; etapa++) {
-            // While para sÛ aceitar valores de 0 a 100
+            // While para s√≥ aceitar valores de 0 a 100
             while (1) {
-                printf("PontuaÁ„o da etapa %d: ", etapa);
+                printf("Pontua√ß√£o da etapa %d: ", etapa);
                 scanf("%d", &pontuacao);
                 if (pontuacao >= 0 && pontuacao <= 100) {
                     break;
@@ -32,32 +37,32 @@ int main() {
 
         media = pontuacao_total / 3.0;
 
-        // RelatÛrio
+        // Relat√≥rio
         printf("\n------------- RESULTADO -------------\n");
         printf("Cadete: %d\n", codigo_cadete);
-        printf("PontuaÁ„o total: %d pontos\n", pontuacao_total);
+        printf("Pontua√ß√£o total: %d pontos\n", pontuacao_total);
 
         if (pontuacao_total == 300)
-            printf("PONTUA«√O M¡XIMA\n");
+            printf("PONTUA√á√ÉO M√ÅXIMA\n");
 
-        printf("MÈdia: %.2f\n", media);
+        printf("M√©dia: %.2f\n", media);
 
         if (media >= 85.0) {
-            printf("CLASSIFICA«√O: COMANDANTE DA MISS√O\n");
-            printf("TREINAMENTO CONCLUÕDO COM EXCEL NCIA.\n");
+            printf("CLASSIFICA√á√ÉO: COMANDANTE DA MISS√ÉO\n");
+            printf("TREINAMENTO CONCLU√çDO COM EXCEL√äNCIA.\n");
         } else if (media >= 70.0) {
-            printf("CLASSIFICA«√O: PILOTO APROVADO\n");
-            printf("CADETE AUTORIZADO PARA A MISS√O.\n");
+            printf("CLASSIFICA√á√ÉO: PILOTO APROVADO\n");
+            printf("CADETE AUTORIZADO PARA A MISS√ÉO.\n");
         } else if (media >= 50.0) {
-            printf("CLASSIFICA«√O: CADETE EM RECUPERA«√O\n");
+            printf("CLASSIFICA√á√ÉO: CADETE EM RECUPERA√á√ÉO\n");
             printf("NOVO TREINAMENTO RECOMENDADO.\n");
         } else {
-            printf("CLASSIFICA«√O: TREINAMENTO REINICIADO\n");
-            printf("CADETE AINDA N√O AUTORIZADO.\n");
+            printf("CLASSIFICA√á√ÉO: TREINAMENTO REINICIADO\n");
+            printf("CADETE AINDA N√ÉO AUTORIZADO.\n");
         }
 
         printf("-------------------------------------\n");
-        printf("Avaliar outro cadete? 1-Sim | 0-N„o: ");
+        printf("Avaliar outro cadete? 1-Sim | 0-N√£o: ");
         scanf("%d", &continuar);
     } while (continuar);
 
