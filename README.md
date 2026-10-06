@@ -28,6 +28,7 @@ O repositório está organizado por aula, com subpastas para cada exercício ou 
 - [Aula 5 - Projeto Arena Tech](#aula-5---projeto-arena-tech-planejamento-e-viabilidade-da-maratona-gamer)
 - [Aula 6 - Estruturas de Repetição](#aula-6---estruturas-de-repetição)
 - [Aula 7 - Projeto Missão Orbital e Exercícios de Revisão](#aula-7---projeto-missão-orbital-e-exercícios-de-revisão)
+- [Aula 8 - Estruturas de Dados Básicas: Vetores e Matrizes](#aula-8---estruturas-de-dados-básicas-vetores-e-matrizes)
 
 ## Aula 2 - Introdução à Linguagem c
 
@@ -960,3 +961,475 @@ Os enunciados dos quatro exercícios propostos estão reunidos separadamente em 
 - **Aninhado:** loop dentro de loop, útil para matrizes/grades.
 
 > 🏆 **Regra de ouro:** todo loop exige inicialização, condição e atualização. Garanta que a condição se torne falsa em algum momento para evitar loop infinito.
+
+## Aula 8 - Estruturas de Dados Básicas: Vetores e Matrizes
+
+Nesta aula foram estudadas as **estruturas de dados homogêneas** em C: os **arrays** unidimensionais (vetores) e multidimensionais (matrizes). Com elas, deixamos de usar uma variável para cada valor e passamos a **organizar vários dados do mesmo tipo** sob um único nome, para poder processá-los com laços de repetição.
+
+### Desafio inicial: por que precisamos de arrays?
+
+Uma empresa quer registrar o salário de cinco funcionários e exibi-los na mesma ordem em que foram informados.
+
+Uma solução ingênua seria criar uma variável para cada salário:
+
+```c
+float salario1, salario2, salario3, salario4, salario5;
+```
+
+Mas e se fossem 50 funcionários? E 500? Como percorrer todos os salários com uma estrutura de repetição?
+
+> 💡 **Ideia-chave:** o problema não é apenas guardar os dados. Precisamos **organizar os dados para processá-los**.
+
+### Estruturas de dados homogêneas
+
+- Uma variável comum armazena **um valor por vez** (`float temperatura = 27.5;`).
+- Quando vários valores do **mesmo tipo** representam elementos de um mesmo conjunto, podemos organizá-los em uma **estrutura de dados homogênea**.
+- **Homogênea** = todos os elementos têm o mesmo tipo.
+
+**Exemplos:**
+- notas de uma turma → `float`
+- idades de alunos → `int`
+- temperaturas diárias → `float`
+- quantidade vendida por dia → `int`
+
+Em C, os **arrays** são as estruturas fundamentais para organizar esses conjuntos de dados.
+
+### O que é um array?
+
+Um array é um conjunto de elementos:
+- do **mesmo tipo**;
+- identificados por um **mesmo nome**;
+- armazenados em **posições consecutivas** da memória;
+- acessados por meio de **índices**.
+
+Um array de uma dimensão é chamado de **vetor**.
+
+```c
+float notas[5] = {7.5, 8.0, 6.5, 9.0, 5.5};
+
+notas[0]  // primeiro elemento (7.5)
+notas[2]  // terceiro elemento (6.5)
+notas[4]  // quinto elemento (5.5)
+```
+
+- **Identificador:** o nome do array (`notas`).
+- **Índices:** as posições (`0, 1, 2, 3, 4`).
+- **Valores:** o conteúdo armazenado em cada posição.
+
+> 💡 **Ideia-chave:** posição e conteúdo são coisas diferentes. O **índice** indica *onde* o valor está; o **conteúdo** é o valor (*o que*) armazenado.
+
+### Por que o índice começa em zero?
+
+Podemos pensar no índice como um **deslocamento a partir do início** do array:
+
+- `valores[0]` → deslocamento 0 (o primeiro elemento está no início)
+- `valores[1]` → deslocamento 1
+- `valores[2]` → deslocamento 2
+
+**Erro clássico:**
+
+```c
+int v[5];
+v[5] = 20;  // ERRO: posição fora dos limites do vetor
+```
+
+Em um vetor de 5 posições, os índices válidos são **0, 1, 2, 3 e 4**.
+
+> ⚠️ **Atenção:** em C **não existe verificação automática de limites**. Um acesso inválido produz **comportamento indefinido** (pode funcionar, travar ou alterar outros dados sem avisar).
+
+### Tipos de arrays
+
+- **Array unidimensional → vetor:** organiza os elementos em uma única sequência, acessada por **um índice**.
+- **Array multidimensional → matriz:** organiza os elementos em linhas e colunas, acessados por **mais de um índice**.
+
+```c
+int vendas[5] = {12, 18, 10, 25, 30};                          // vetor
+int notas[3][3] = {{10, 20, 30}, {40, 50, 60}, {70, 80, 90}};  // matriz
+```
+
+Também é possível ter arrays com mais dimensões, mas os casos mais comuns no início são **1D e 2D**.
+
+### Declarando e inicializando vetores
+
+- **Declaração:** reserva espaço na memória para um array do tipo especificado.
+  ```c
+  int idades[5];
+  float notas[4];
+  ```
+- **Inicialização completa:** declara e já atribui um valor para cada elemento.
+  ```c
+  int valores[5] = {10, 20, 30, 40, 50};
+  ```
+- **Tamanho inferido pelo compilador:** o compilador conta os elementos informados.
+  ```c
+  int valores[] = {10, 20, 30, 40, 50};
+  ```
+- **Inicialização com zeros:** todos os elementos começam com 0.
+  ```c
+  int valores[5] = {0};
+  ```
+
+> ⚠️ **Cuidado:** se um array **não for inicializado** (`int valores[5];`), seus elementos possuem **valores indeterminados** (lixo de memória).
+
+### Acessando e alterando elementos
+
+Usamos o índice para ler ou atribuir um valor, inclusive usando o valor de outros elementos:
+
+```c
+int pontos[4] = {10, 20, 30, 40};
+
+pontos[0] = 15;
+pontos[2] = pontos[0] + pontos[1];
+// Resultado: {15, 20, 35, 40}
+```
+
+**Leitura de uma posição com `scanf`:**
+
+```c
+scanf("%d", &pontos[3]);
+```
+
+> 💡 Observe o `&`: o `scanf` precisa do **endereço** da posição que receberá o valor.
+
+### Percorrendo um vetor
+
+Um vetor se torna realmente útil quando combinado com uma **estrutura de repetição**.
+
+**Pseudocódigo:**
+```
+para i de 0 até TAM - 1
+    leia(vetor[i])
+fim-para
+```
+
+**Leitura em C:**
+```c
+for (i = 0; i < TAM; i++) {
+    scanf("%d", &vetor[i]);
+}
+```
+
+**Exibição em C:**
+```c
+for (i = 0; i < TAM; i++) {
+    printf("%d ", vetor[i]);
+}
+```
+
+> 💡 **Padrão importante:** um vetor unidimensional normalmente é percorrido com **um laço `for`**.
+
+### Por que armazenar antes de processar?
+
+Depois que os dados estão armazenados no vetor, podemos fazer **novos processamentos sem pedir os dados novamente**. Um mesmo conjunto de dados pode ser processado várias vezes.
+
+Fluxo geral: **Entrada → Armazenamento → Processamento → Saída**
+
+**Exemplo: média salarial**
+
+```c
+float soma = 0.0f;
+float media;
+
+for (i = 0; i < TAM; i++) {
+    soma += salarios[i];
+}
+
+media = soma / TAM;
+printf("Média salarial: R$ %.2f\n", media);
+```
+
+### Padrões de processamento em vetores
+
+Muitos problemas com vetores são combinações de poucos padrões fundamentais:
+
+- **Acumulação:** soma os elementos do vetor (ou calcula outra acumulação).
+  ```c
+  soma += vetor[i];
+  ```
+- **Contagem:** conta quantos elementos satisfazem uma condição.
+  ```c
+  if (vetor[i] > media)
+      contador++;
+  ```
+- **Maior valor:** encontra o maior elemento do vetor.
+  ```c
+  maior = vetor[0];
+
+  for (i = 1; i < TAM; i++) {
+      if (vetor[i] > maior)
+          maior = vetor[i];
+  }
+  ```
+- **Menor valor:** encontra o menor elemento do vetor (mesma lógica, começando com `menor = vetor[0];` e usando `<`).
+
+> 💡 **Boa prática:** para maior/menor, use um **elemento válido do próprio vetor** como valor inicial (e não um número fixo como `0`).
+
+### Quando uma dimensão não é suficiente
+
+Imagine guardar as notas de **3 estudantes** em **4 avaliações**. Com vetores separados:
+
+```c
+float aluno1[4];
+float aluno2[4];
+float aluno3[4];
+```
+
+Mas os dados têm naturalmente uma organização em **linhas e colunas** (aluno × avaliação). A estrutura que representa melhor isso é a **matriz**.
+
+### Matrizes: arrays com duas dimensões
+
+Uma matriz é um array bidimensional organizado em **linhas** e **colunas**.
+
+```c
+float notas[3][4];     // declaração: 3 linhas, 4 colunas
+notas[linha][coluna]   // acesso a um elemento
+```
+
+> 💡 Em uma matriz, cada elemento é identificado por **dois índices**: um para a linha e outro para a coluna.
+
+### Declarando e inicializando matrizes
+
+```c
+int vendas[3][4];   // 3 x 4 = 12 elementos do tipo int
+```
+
+```c
+int vendas[3][4] = {
+    {10, 12,  9, 11},
+    { 8,  7, 10,  9},
+    { 5,  6,  4,  7}
+};
+```
+
+**Acesso:**
+```c
+vendas[0][0]   // 10
+vendas[1][2]   // 10
+vendas[2][3]   // 7
+```
+
+> 💡 Em cada dimensão, os índices também começam por **zero**.
+
+### Como percorrer uma matriz
+
+Para percorrer duas dimensões, usamos **duas estruturas de repetição aninhadas**.
+
+**Pseudocódigo:**
+```
+para linha de 0 até LINHAS - 1
+    para coluna de 0 até COLUNAS - 1
+        leia(matriz[linha][coluna])
+    fim-para
+fim-para
+```
+
+**Em C:**
+```c
+for (i = 0; i < LINHAS; i++) {
+    for (j = 0; j < COLUNAS; j++) {
+        scanf("%d", &matriz[i][j]);
+    }
+}
+```
+
+> 💡 **Padrão:** o **laço externo** (`i`) percorre as **linhas**; o **laço interno** (`j`) percorre as **colunas**.
+
+### Processando linhas e colunas
+
+Uma matriz pode ser analisada de maneiras diferentes, dependendo do problema:
+
+- **Somar uma linha** (o laço varia a coluna `j`):
+  ```c
+  soma = 0;
+  for (j = 0; j < COLUNAS; j++) {
+      soma += matriz[linha][j];
+  }
+  ```
+- **Somar uma coluna** (o laço varia a linha `i`):
+  ```c
+  soma = 0;
+  for (i = 0; i < LINHAS; i++) {
+      soma += matriz[i][coluna];
+  }
+  ```
+- **Processar toda a matriz** (dois laços aninhados):
+  ```c
+  for (i = 0; i < LINHAS; i++) {
+      for (j = 0; j < COLUNAS; j++) {
+          // processa matriz[i][j]
+      }
+  }
+  ```
+
+**Reflexão (exemplo da cafeteria):** se cada linha é um produto e cada coluna é um dia, a soma de uma **linha** é o total vendido de um produto, e a soma de uma **coluna** é o total vendido de todos os produtos em um dia.
+
+### Decompondo a solução (pensamento computacional)
+
+Exemplo: calcular a média de cada estudante e achar a maior média.
+
+- **Decomposição:** leitura → cálculo das médias → busca da maior média.
+- **Reconhecimento de padrão:** cada aluno corresponde a **uma linha** processada da mesma forma.
+
+**Etapa 1: armazenar as notas**
+```c
+for (i = 0; i < ALUNOS; i++) {
+    for (j = 0; j < AVALIACOES; j++) {
+        scanf("%f", &notas[i][j]);
+    }
+}
+```
+
+**Etapa 2: calcular a média de cada linha e guardar a maior**
+```c
+for (i = 0; i < ALUNOS; i++) {
+    soma = 0.0f;
+
+    for (j = 0; j < AVALIACOES; j++) {
+        soma += notas[i][j];
+    }
+
+    media = soma / AVALIACOES;
+
+    if (i == 0 || media > maiorMedia) {
+        maiorMedia = media;
+        melhorAluno = i;
+    }
+}
+```
+
+### Arrays com mais de duas dimensões
+
+A linguagem C permite arrays com **três ou mais dimensões**.
+
+```c
+int estoque[2][3][4];
+```
+
+Uma interpretação possível: 2 lojas, 3 setores por loja e 4 produtos por setor.
+
+```c
+estoque[loja][setor][produto];
+```
+
+- A **quantidade de índices acompanha a quantidade de dimensões**.
+- Nesta etapa, o foco principal permanece nos arrays de **uma e duas dimensões**.
+
+### Atenção: arrays em C não protegem você
+
+- **Não existe `.length`:** `vetor.length` não existe em C. Use uma constante (`#define TAM 5`) ou mantenha o tamanho em uma variável.
+- **Não existe `new` para declarar arrays comuns:** basta `int vetor[10];`.
+- **Arrays locais não recebem zero automaticamente:** inicialize explicitamente com `int vetor[10] = {0};`.
+- **Índice inválido não gera necessariamente uma mensagem de erro:** `vetor[10] = 5;` é comportamento indefinido se o tamanho for 10.
+- **Não podemos copiar arrays com atribuição simples:** `destino = origem;` não copia arrays em C. A cópia deve ser feita **elemento a elemento**.
+
+### String também é vetor em C
+
+Uma **string** é um array de caracteres (`char`) **terminado por `'\0'`**.
+
+```c
+char nome[6] = "Marco";
+```
+
+- `nome[0] = 'M'`
+- `nome[1] = 'a'`
+- `nome[2] = 'r'`
+- `nome[3] = 'c'`
+- `nome[4] = 'o'`
+- `nome[5] = '\0'` (caractere terminador)
+
+Por causa do `'\0'`, o array precisa ter **uma posição a mais** do que o número de letras do texto.
+
+### Uso simples de strings
+
+**Com `scanf`:**
+```c
+char nome[20];
+
+printf("Digite seu nome: ");
+scanf("%19s", nome);
+
+printf("Nome digitado: %s\n", nome);
+```
+
+**Com `fgets`:**
+```c
+char nome[20];
+
+printf("Digite seu nome: ");
+fgets(nome, 20, stdin);
+
+printf("Nome digitado: %s\n", nome);
+```
+
+**Observações:**
+- `%s` é usado para exibir (e ler) strings.
+- Ao ler com `scanf("%s", ...)`, **não usamos `&nome`**, pois o nome do array já representa o endereço.
+- `scanf("%s", nome)` lê apenas **até o primeiro espaço** (ex.: "Ana Paula Silva" vira só `Ana`).
+- `fgets()` é mais adequada para ler textos **com espaços** e lê a linha completa (incluindo o `\n` no final).
+
+### Principais funções de string (`string.h`)
+
+Para usar, inclua a biblioteca:
+```c
+#include <string.h>
+```
+
+- **`strlen(string)`:** retorna quantos caracteres a string possui (**não conta** o `\0`).
+  ```c
+  char texto[] = "C";
+  int tamanho = strlen(texto);  // Retorna 1
+  ```
+- **`strcmp(string1, string2)`:** compara duas strings caractere por caractere, **diferenciando** maiúsculas e minúsculas. Retorna `0` quando as strings são idênticas.
+  ```c
+  if (strcmp("abc", "abc") == 0) {
+      /* Iguais! */
+  }
+  if (strcmp("abc", "ABC") != 0) {
+      /* Diferentes! */
+  }
+  ```
+- **`strcasecmp(string1, string2)`:** funciona como `strcmp()`, mas **ignora** maiúsculas e minúsculas (ótimo para sistemas de busca). Retorna `0` quando são iguais.
+  ```c
+  if (strcasecmp("Qua", "qua") == 0) {
+      /* Retorna 0 (Iguais) */
+  }
+  ```
+
+> 💡 **Observação:** `strcasecmp()` não faz parte do C padrão. No Linux/WSL ela fica em `<strings.h>` e, em alguns compiladores no Windows, o equivalente é `_stricmp()`.
+
+### Desafio da aula: personalizando com nomes
+
+Usar um vetor de strings para os **dias da semana** e outro para os **produtos**, personalizando as mensagens do exercício da cafeteria.
+
+```c
+const char *produtos[] = {"café", "coxinha", "bolo"};
+const char *dias_semana[] = {"seg", "ter", "qua"};
+```
+
+> 💡 **Atenção:** uma variável comum guarda um **valor**; um **ponteiro** (`*`) guarda um **endereço**. Em C, `&` obtém o endereço de uma variável e `*` acessa o valor armazenado nesse endereço.
+
+### Síntese: o que aprendemos
+
+- **Vetores:** `tipo nome[TAMANHO];`, acessados com **um índice** (`vetor[i]`) e normalmente percorridos com **um laço**.
+- **Matrizes:** `tipo nome[LINHAS][COLUNAS];`, acessadas com **dois índices** (`matriz[i][j]`) e normalmente percorridas com **laços aninhados**.
+- **Padrões que continuam aparecendo:** acumular, contar, comparar, buscar maior/menor, filtrar e percorrer dados sistematicamente.
+
+> 🏆 **Reflexão final:** o array não resolve o problema sozinho. Ele **organiza os dados** para que o algoritmo possa processá-los de maneira sistemática.
+
+### Exercícios da aula
+
+Os enunciados dos exercícios propostos nesta aula estão reunidos separadamente em `README_aula8_enunciados.md`.
+
+### Cheat sheet: vetores e matrizes em C
+
+- **Declarar vetor:** `int v[5];`
+- **Declarar e inicializar:** `int v[5] = {10, 20, 30, 40, 50};`
+- **Zerar tudo:** `int v[5] = {0};`
+- **Acessar elemento:** `v[i]` (índices de `0` a `TAM - 1`)
+- **Declarar matriz:** `int m[3][4];`
+- **Acessar elemento da matriz:** `m[i][j]` (`i` = linha, `j` = coluna)
+- **Percorrer vetor:** um `for`
+- **Percorrer matriz:** dois `for` aninhados (externo = linhas, interno = colunas)
+- **String:** `char nome[N];` e precisa de espaço para o `'\0'`
+
+> 🏆 **Regra de ouro:** o primeiro índice é sempre `0` e o último é `TAM - 1`. Passar disso é comportamento indefinido, e o C não avisa.
