@@ -29,6 +29,7 @@ O repositório está organizado por aula, com subpastas para cada exercício ou 
 - [Aula 6 - Estruturas de Repetição](#aula-6---estruturas-de-repetição)
 - [Aula 7 - Projeto Missão Orbital e Exercícios de Revisão](#aula-7---projeto-missão-orbital-e-exercícios-de-revisão)
 - [Aula 8 - Estruturas de Dados Básicas: Vetores e Matrizes](#aula-8---estruturas-de-dados-básicas-vetores-e-matrizes)
+- [Aula 8.1 - Desafio: Análise de Vendas de Chips de Telefonia Móvel](#aula-81---desafio-análise-de-vendas-de-chips-de-telefonia-móvel)
 
 ## Aula 2 - Introdução à Linguagem c
 
@@ -1433,3 +1434,71 @@ Os enunciados dos exercícios propostos nesta aula estão reunidos separadamente
 - **String:** `char nome[N];` e precisa de espaço para o `'\0'`
 
 > 🏆 **Regra de ouro:** o primeiro índice é sempre `0` e o último é `TAM - 1`. Passar disso é comportamento indefinido, e o C não avisa.
+
+# Aula 8.1 - Desafio: Análise de Vendas de Chips de Telefonia Móvel
+
+## Contexto
+
+Uma empresa de consultoria foi contratada para analisar o desempenho das vendas de chips de três operadoras de telefonia móvel: **Vivo**, **Claro** e **TIM**.
+
+Para realizar o estudo, foram coletadas as quantidades de chips vendidos por cada operadora durante os **12 meses** de um determinado ano.
+
+## Problema
+
+Considerando os dados armazenados na matriz, desenvolva um programa em linguagem C que permita analisar o desempenho das vendas ao longo do ano.
+
+O programa deverá determinar:
+
+1. a média mensal geral de vendas, considerando todas as operadoras e todos os meses;
+2. a média anual de vendas de cada operadora;
+3. o mês que apresentou a maior média de vendas, considerando conjuntamente as três operadoras;
+4. a operadora que apresentou o maior total de vendas no ano.
+
+### Observações
+
+- Considere criar dois vetores: o primeiro para armazenar os meses e o segundo para as operadoras:
+
+```c
+const char *meses[] = {"jan", "fev", ..., "dez"};
+const char *operadoras[] = {"Vivo", "Claro", "Tim"};
+```
+
+- Arredondar os dados para o **inteiro superior mais próximo**.
+
+## Entrada
+
+Considere, para teste, a seguinte quantidade de chips vendidos:
+
+    Vivo:
+    120 135 150 140 160 175 180 170 165 190 200 210
+
+    Claro:
+    110 125 145 150 155 160 170 180 175 185 195 205
+
+    TIM:
+    100 115 130 125 140 150 160 155 170 175 185 190
+
+## Saída esperada
+
+O programa deverá apresentar as informações calculadas em um formato semelhante a:
+
+    RELATORIO ANUAL DE VENDAS
+
+    Media mensal geral: 160 chips
+
+    Media da Vivo: 167 chips
+    Media da Claro: 163 chips
+    Media da TIM: 150 chips
+
+    Mes com maior media de vendas: dez - 605 chips
+    Operadora com maior venda anual: Vivo - 167 chips
+
+## Para pensar antes de programar
+
+- Nem todos os resultados exigem percorrer a matriz da mesma maneira.
+- Use o pensamento computacional:
+  - **Decomposição:** leitura → cálculo das médias → busca da maior média.
+  - **Reconhecimento de padrões:**
+    - Cada operadora corresponde a uma **linha** processada da mesma forma. Para calcular a média de uma operadora, nos interessa percorrer **uma linha**.
+    - Cada **coluna** corresponde a um mês. Para descobrir o melhor mês, interessa **comparar as colunas**.
+    - Para obter a média geral, precisamos considerar **todos os elementos** da matriz.
