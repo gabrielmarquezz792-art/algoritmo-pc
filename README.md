@@ -30,6 +30,7 @@ O repositório está organizado por aula, com subpastas para cada exercício ou 
 - [Aula 7 - Projeto Missão Orbital e Exercícios de Revisão](#aula-7---projeto-missão-orbital-e-exercícios-de-revisão)
 - [Aula 8 - Estruturas de Dados Básicas: Vetores e Matrizes](#aula-8---estruturas-de-dados-básicas-vetores-e-matrizes)
 - [Aula 8.1 - Desafio: Análise de Vendas de Chips de Telefonia Móvel](#aula-81---desafio-análise-de-vendas-de-chips-de-telefonia-móvel)
+- [Aula 9 - Manipulação de Arquivos](#aula-9---manipulação-de-arquivos)
 
 ## Aula 2 - Introdução à Linguagem c
 
@@ -1502,3 +1503,300 @@ O programa deverá apresentar as informações calculadas em um formato semelhan
     - Cada operadora corresponde a uma **linha** processada da mesma forma. Para calcular a média de uma operadora, nos interessa percorrer **uma linha**.
     - Cada **coluna** corresponde a um mês. Para descobrir o melhor mês, interessa **comparar as colunas**.
     - Para obter a média geral, precisamos considerar **todos os elementos** da matriz.
+
+## Aula 9 - Manipulação de Arquivos
+
+Nesta aula foram estudados a **leitura e a escrita em arquivos texto** em C: como abrir e fechar um arquivo, os **modos de acesso** (`"r"`, `"w"` e `"a"`) e como **processar dados armazenados** (contar, somar, calcular médias, encontrar o maior valor). Com isso, os dados deixam de existir só durante a execução do programa e passam a **persistir** em disco.
+
+### Desafio inicial: por que os dados desaparecem?
+
+Um programa registra as notas de uma turma em um vetor (`float notas[4] = {7.5, 8.0, 6.5, 9.0};`). Ao encerrar a execução, os dados desaparecem.
+
+Para refletir:
+- Por que os dados foram perdidos?
+- Como recuperar as notas em outra execução?
+- Onde os dados poderiam ser armazenados?
+- O que muda com centenas de registros?
+
+### Persistência de dados
+
+- As variáveis armazenam dados na **memória (RAM)** durante a execução do programa.
+- Quando o programa termina, esses dados deixam de estar disponíveis.
+- Um **arquivo** permite:
+  - guardar dados em um dispositivo de armazenamento;
+  - recuperar informações em outra execução;
+  - compartilhar dados com outros programas;
+  - processar registros sem digitá-los novamente.
+
+> 💡 **Persistência:** permanência dos dados além da execução do programa que os produziu.
+
+### Revisão: valor, endereço e ponteiros
+
+Uma variável pode ser observada por duas informações:
+- **valor:** o dado armazenado (`20`);
+- **endereço:** a localização da variável na memória (`&idade`).
+
+O operador `&` permite obter o **endereço** de uma variável.
+
+Um **ponteiro** é uma variável que armazena o endereço de outra variável.
+
+```c
+int idade = 20;
+int *p = &idade;
+```
+
+Significado das expressões:
+- `idade` → valor armazenado em `idade`;
+- `&idade` → endereço de `idade`;
+- `p` → endereço armazenado no ponteiro;
+- `*p` → valor encontrado no endereço apontado.
+
+**Alteração indireta:** `*p = 25;` muda o valor de `idade` de 20 para 25.
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    int idade = 20;
+    int *p;
+
+    p = &idade;   // p guarda o endereço da variável idade
+
+    printf("Valor de idade: %d\n", idade);
+    printf("Endereço de idade: %p\n", &idade);
+    printf("Valor guardado em p: %p\n", p);
+    printf("Valor apontado por p: %d\n", *p);
+
+    return 0;
+}
+```
+
+> 💡 O ponteiro **não guarda diretamente o dado**: ele indica onde o dado pode ser encontrado. O endereço exibido muda de acordo com a execução.
+
+**Por que utilizar um ponteiro?** Em C, eles são importantes, por exemplo, para:
+- modificar variáveis por meio de funções;
+- evitar cópias desnecessárias de grandes estruturas;
+- percorrer vetores e strings;
+- realizar alocação dinâmica de memória.
+
+**E nos arquivos?** Ao manipular arquivos, o programa precisa manter informações sobre um **fluxo aberto**. O ponteiro `FILE *arquivo` funciona como uma **referência a esse fluxo**, usado para ler ou escrever dados no arquivo. A estrutura associada mantém informações como:
+- modo de abertura;
+- posição atual de leitura ou escrita;
+- estado do fluxo;
+- buffer utilizado nas operações.
+
+### Arquivos de texto × arquivos binários
+
+- **Arquivo texto:**
+  - armazena dados como **caracteres**;
+  - pode ser aberto em um editor de texto;
+  - exemplos: `.txt`, `.csv`, `.json`;
+  - favorece a inspeção manual.
+- **Arquivo binário:**
+  - armazena dados como **bytes**;
+  - depende de um programa para interpretação;
+  - exemplos: `.jpg`, `.mp3`, `.exe`;
+  - pode ser mais compacto e eficiente.
+
+> 💡 **Delimitação:** nesta aula, trabalhamos somente com **arquivos texto**.
+
+### Da tela para o arquivo
+
+As funções de arquivo são parecidas com as de entrada e saída padrão (teclado e tela). Todas fazem parte da biblioteca `stdio.h`:
+
+- `printf()` ↔ `fprintf()`
+- `scanf()` ↔ `fscanf()`
+- `puts()` ↔ `fputs()`
+- `getchar()` ↔ `fgetc()`
+- `fgets(..., stdin)` ↔ `fgets(..., arquivo)`
+
+> 💡 A principal diferença é a indicação do **fluxo de dados** utilizado.
+
+### Fluxo básico de manipulação de um arquivo em C
+
+1. **Declarar** um ponteiro do tipo `FILE`.
+2. **Abrir** o arquivo com `fopen()`.
+3. **Verificar** se a abertura funcionou.
+4. **Ler ou escrever** os dados.
+5. **Fechar** o arquivo com `fclose()`.
+
+```c
+FILE *arquivo = fopen("dados.txt", "r");
+
+if (arquivo == NULL) {
+    printf("Não foi possível abrir o arquivo.\n");
+    return 1;
+}
+
+/* Leitura ou escrita */
+
+fclose(arquivo);
+```
+
+- `FILE` é um tipo definido em `stdio.h`.
+- `fopen()` retorna `NULL` quando **não consegue abrir** o arquivo. Por isso, sempre teste o retorno.
+- `fclose(arquivo);` conclui operações pendentes e libera os recursos usados pelo sistema.
+
+### Modos de acesso essenciais
+
+- **`"r"` (leitura):**
+  - se o arquivo **não existir**, a abertura falha;
+  - se existir, **preserva o conteúdo**.
+- **`"w"` (escrita):**
+  - se o arquivo **não existir**, ele é criado;
+  - se existir, **apaga o conteúdo anterior**.
+- **`"a"` (acréscimo):**
+  - se o arquivo **não existir**, ele é criado;
+  - se existir, **escreve no final**.
+
+> ⚠️ **Atenção:** abrir um arquivo existente com `"w"` elimina seu conteúdo anterior.
+
+Ampliação posterior: `"r+"`, `"w+"` e `"a+"`.
+
+**Caminho relativo:** em `fopen("dados.txt", "w");` o arquivo é procurado ou criado no **diretório de trabalho do programa**.
+
+### Escrevendo em arquivos texto
+
+Para escrever, usamos `fprintf()` e `fputs()`. O `fprintf()` funciona como o `printf()`, mas com o arquivo como primeiro argumento:
+
+```c
+fprintf(arquivo, "%d x %d = %d\n", numero, i, numero * i);
+```
+
+**Exemplo de planejamento (Exercício 1 - tabuada):**
+- **Entrada:** número da tabuada (ex.: `7`).
+- **Processamento:** abrir `tabuada.txt` no modo `"w"`; repetir `i = 0 ... 10`; calcular e gravar cada multiplicação; fechar o arquivo.
+- **Saída:** arquivo texto com **11 linhas**.
+- **Decisão:** o modo `"w"` é adequado porque **cada execução deve gerar uma nova tabuada** (substitui a anterior).
+
+Já no Exercício 2 (consumo de água), o arquivo pode conter registros anteriores. Por isso, o modo adequado é o `"a"`, que **acrescenta sem apagar** as informações já armazenadas.
+
+### Funções de leitura
+
+Podemos ler:
+- **um caractere** com `fgetc()`;
+- **uma linha** com `fgets()`;
+- **dados formatados** com `fscanf()`.
+
+Qual função escolher?
+- texto livre, linha por linha → `fgets()`;
+- campos com formato conhecido → `fscanf()`;
+- análise individual de caracteres → `fgetc()`.
+
+> 💡 A função escolhida deve ser **compatível** com o formato do arquivo e com o processamento desejado.
+
+**Posição atual de leitura:** cada operação de leitura **avança a posição atual** do arquivo. Após um `fscanf()`, um `fgets()` continua do ponto em que a leitura parou. Para voltar ao início:
+- `rewind(arquivo);` retorna ao início; ou
+- feche e abra o arquivo novamente.
+
+### Leitura linha por linha com `fgets()`
+
+```c
+char linha[100];
+
+while (fgets(linha, sizeof(linha), arquivo) != NULL) {
+    printf("%s", linha);
+}
+```
+
+O `fgets()`:
+- lê até encontrar uma **quebra de linha** (`\n`);
+- **limita** a quantidade de caracteres lidos;
+- adiciona `\0` ao final da string;
+- retorna `NULL` quando não realiza outra leitura.
+
+> ⚠️ **Atenção:** a quebra de linha lida pode **permanecer dentro da string** (`'O'`, `'l'`, `'á'`, `'\n'`, `'\0'`). Por isso o `printf("%s", linha);` acima não precisa de outro `\n`.
+
+### Leitura formatada com `fscanf()`
+
+Exemplo de `notas.txt` (RGM e nota em cada linha):
+
+```
+25001234 8.5
+25005678 6.0
+25009876 4.5
+```
+
+```c
+char rgm[12];
+float nota;
+
+while (fscanf(arquivo, "%11s %f", rgm, &nota) == 2) {
+    printf("%s: %.1f\n", rgm, nota);
+}
+```
+
+- `rgm[12]` guarda 11 caracteres + o `\0`. Por isso usamos `%11s`, que reserva uma posição para o `\0`.
+- O `fscanf()` **retorna a quantidade de campos lidos e atribuídos corretamente**.
+- Se retornou `2`, os dois campos (RGM e nota) foram lidos e o corpo do laço executa.
+- Se retornou **qualquer outro valor**, o laço se encerra.
+
+> ⚠️ **Princípio de compatibilidade:** o formato do comando deve corresponder à organização dos dados no arquivo.
+
+### Processamento de dados armazenados
+
+Durante a leitura, o programa pode:
+- contar registros;
+- calcular totais e médias;
+- encontrar o maior ou o menor valor;
+- classificar cada registro;
+- selecionar dados que atendem a uma condição;
+- gerar outro arquivo com um relatório.
+
+> 💡 O padrão de raciocínio permanece: **Entrada → Processamento → Saída**.
+
+**Decompondo o Exercício 4 (notas da turma):**
+1. **Antes da repetição (preparar):**
+   - abrir o arquivo;
+   - inicializar contador, soma e contadores auxiliares (`contador = 0`, `soma = 0`, `aprovados = 0`).
+2. **Durante cada leitura válida (repetir):**
+   - contar o estudante;
+   - acumular a nota;
+   - comparar com a maior nota;
+   - verificar se a nota alcançou 6,0.
+3. **Depois da repetição (consolidar):**
+   - verificar se existe ao menos um registro (`contador > 0`);
+   - calcular a média (`media = soma / contador`);
+   - exibir o relatório;
+   - fechar o arquivo.
+
+### Juntando tudo: menu com arquivo (Consumo de energia)
+
+Aplicação que salva em `energia.txt` o número do mês e o consumo em kWh, com o menu:
+
+1. Cadastrar consumo
+2. Exibir relatório
+3. Sair
+
+O menu se repete até que a opção 3 seja escolhida.
+
+**Planejamento da solução:**
+- **Cadastrar** (modo `"a"`): ler os dados, abrir no modo `"a"`, gravar e fechar.
+- **Relatório** (modo `"r"`): abrir no modo `"r"`, inicializar acumuladores, ler e processar todos os registros, calcular e exibir os resultados, fechar.
+- **Sair:** informar o encerramento e finalizar.
+- **Outra opção:** informar opção inválida e repetir o menu.
+- O laço principal continua `enquanto opção != 3`.
+
+### Exercícios da aula
+
+Os enunciados dos exercícios propostos nesta aula estão reunidos separadamente em `README_aula9_enunciados.md`.
+
+### Cheat sheet: manipulação de arquivos texto em C
+
+- **Declarar:** `FILE *arquivo;`
+- **Abrir:** `arquivo = fopen("dados.txt", "r");`
+- **Verificar:** `if (arquivo == NULL) { ... }`
+- **Modos:** `"r"` ler · `"w"` criar ou substituir · `"a"` acrescentar
+- **Escrever:** `fprintf()` · `fputs()`
+- **Ler:** `fscanf()` · `fgets()` · `fgetc()`
+- **Voltar ao início:** `rewind(arquivo);`
+- **Fechar:** `fclose(arquivo);`
+
+**Lembretes importantes:**
+- Teste o retorno da leitura (`fscanf() == 2`, `fgets() != NULL`).
+- Use um formato compatível com os dados do arquivo.
+- Caminho relativo = diretório de trabalho do programa.
+
+> 🏆 **Regra de ouro:** todo arquivo aberto deve ser verificado (`NULL`) e fechado (`fclose`). Cuidado: `"w"` apaga o conteúdo anterior.
+
