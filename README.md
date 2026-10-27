@@ -946,8 +946,6 @@ Atividade **individual**, destinada à resolução de exercícios de revisão so
 
 Entrega pelo link "Aula 07" no Blackboard, até **28/09/2026, 23h59**.
 
-Os enunciados dos quatro exercícios propostos estão reunidos separadamente em `README_aula7_enunciados.md`.
-
 ### Cheat sheet: estruturas de repetição em C
 
 | Estrutura | Uso | Regra |
@@ -1418,10 +1416,6 @@ const char *dias_semana[] = {"seg", "ter", "qua"};
 - **Padrões que continuam aparecendo:** acumular, contar, comparar, buscar maior/menor, filtrar e percorrer dados sistematicamente.
 
 > 🏆 **Reflexão final:** o array não resolve o problema sozinho. Ele **organiza os dados** para que o algoritmo possa processá-los de maneira sistemática.
-
-### Exercícios da aula
-
-Os enunciados dos exercícios propostos nesta aula estão reunidos separadamente em `README_aula8_enunciados.md`.
 
 ### Cheat sheet: vetores e matrizes em C
 
