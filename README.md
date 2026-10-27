@@ -1773,6 +1773,24 @@ O menu se repete até que a opção 3 seja escolhida.
 - **Outra opção:** informar opção inválida e repetir o menu.
 - O laço principal continua `enquanto opção != 3`.
 
+### Cheat sheet: manipulação de arquivos texto em C
+
+- **Declarar:** `FILE *arquivo;`
+- **Abrir:** `arquivo = fopen("dados.txt", "r");`
+- **Verificar:** `if (arquivo == NULL) { ... }`
+- **Modos:** `"r"` ler · `"w"` criar ou substituir · `"a"` acrescentar
+- **Escrever:** `fprintf()` · `fputs()`
+- **Ler:** `fscanf()` · `fgets()` · `fgetc()`
+- **Voltar ao início:** `rewind(arquivo);`
+- **Fechar:** `fclose(arquivo);`
+
+**Lembretes importantes:**
+- Teste o retorno da leitura (`fscanf() == 2`, `fgets() != NULL`).
+- Use um formato compatível com os dados do arquivo.
+- Caminho relativo = diretório de trabalho do programa.
+
+> 🏆 **Regra de ouro:** todo arquivo aberto deve ser verificado (`NULL`) e fechado (`fclose`). Cuidado: `"w"` apaga o conteúdo anterior.
+
 ## Aula 10 - Funções e Modularização
 
 Nesta aula foram estudadas as **funções** em C e a ideia de **modularização**: dividir um programa grande em partes menores, cada uma responsável por uma tarefa. Também vimos como os parâmetros são passados (**por valor** e por **referência**, com ponteiros), o retorno de valores, o escopo de variáveis, os protótipos e as **structs**, que reúnem dados de tipos diferentes em uma única estrutura.
@@ -2196,3 +2214,23 @@ void listar_alunos(Aluno alunos[], int quantidade);
 ```
 
 Observe que o `quantidade` é passado **por ponteiro** em `cadastrar_aluno` (a função precisa alterá-lo) e **por valor** nas demais (elas só precisam ler). Em parâmetros de função, arrays já são tratados essencialmente como ponteiros para seus elementos; poderíamos utilizar também `(Aluno *alunos, int *quantidade)`.
+
+### Cheat sheet: funções e structs em C
+
+- **Definição:** `tipo_retorno nome(tipo param1, tipo param2) { ... return valor; }`
+- **Sem retorno:** `void nome(void) { ... }`
+- **Chamada:** `resultado = nome(arg1, arg2);`
+- **Parâmetro** = na definição · **Argumento** = na chamada
+- **Por valor:** a função recebe uma cópia; a original não muda
+- **Por referência (ponteiro):** `void f(int *p)` · chamada `f(&x)` · uso `*p = ...;`
+- **Arrays como parâmetro:** `int v[]` equivale a `int *v` e altera o original
+- **Protótipo:** `tipo nome(tipos dos parâmetros);` antes do `main`
+- **Struct:** `typedef struct { ... } Nome;` · campo: `var.campo`
+- **Ponteiro para struct:** `ptr->campo`
+
+**Lembretes importantes:**
+- Definir uma função não a executa: é preciso **chamá-la**.
+- Variáveis locais só existem dentro da função em que foram declaradas.
+- Em C, **tudo é passado por valor**; com ponteiros, o valor passado é o **endereço**.
+
+> 🏆 **Regra de ouro:** se a função precisa **alterar** uma variável do chamador, passe o **endereço** (`&variavel`) e use ponteiro no parâmetro. Se só precisa **usar** o valor, passe por valor.
