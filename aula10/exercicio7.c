@@ -91,7 +91,7 @@ void consultar_aluno(Aluno alunos[], int quantidade) {
     for (int i = 0; i < quantidade; i++) {
         if (consultar_rgm == alunos[i].rgm) {
             printf("\n--- Aluno Encontrado ---\n");
-            printf("Nome: %s\n", alunos[i].nome); // Corrigido: sem o '&'
+            printf("Nome: %s\n", alunos[i].nome);
             printf("RGM: %d\n", alunos[i].rgm);
             printf("Média: %.2f\n", alunos[i].media);
             printf("-----------------------\n\n");
