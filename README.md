@@ -31,6 +31,7 @@ O repositório está organizado por aula, com subpastas para cada exercício ou 
 - [Aula 8 - Estruturas de Dados Básicas: Vetores e Matrizes](#aula-8---estruturas-de-dados-básicas-vetores-e-matrizes)
 - [Aula 8.1 - Desafio: Análise de Vendas de Chips de Telefonia Móvel](#aula-81---desafio-análise-de-vendas-de-chips-de-telefonia-móvel)
 - [Aula 9 - Manipulação de Arquivos](#aula-9---manipulação-de-arquivos)
+- [Aula 10 - Funções e Modularização](#aula-10---funções-e-modularização)
 
 ## Aula 2 - Introdução à Linguagem c
 
@@ -1778,25 +1779,426 @@ O menu se repete até que a opção 3 seja escolhida.
 - **Outra opção:** informar opção inválida e repetir o menu.
 - O laço principal continua `enquanto opção != 3`.
 
-### Exercícios da aula
+## Aula 10 - Funções e Modularização
 
-Os enunciados dos exercícios propostos nesta aula estão reunidos separadamente em `README_aula9_enunciados.md`.
+Nesta aula foram estudadas as **funções** em C e a ideia de **modularização**: dividir um programa grande em partes menores, cada uma responsável por uma tarefa. Também vimos como os parâmetros são passados (**por valor** e por **referência**, com ponteiros), o retorno de valores, o escopo de variáveis, os protótipos e as **structs**, que reúnem dados de tipos diferentes em uma única estrutura.
 
-### Cheat sheet: manipulação de arquivos texto em C
+### Desafio inicial: a mesma fórmula em vários lugares
 
-- **Declarar:** `FILE *arquivo;`
-- **Abrir:** `arquivo = fopen("dados.txt", "r");`
-- **Verificar:** `if (arquivo == NULL) { ... }`
-- **Modos:** `"r"` ler · `"w"` criar ou substituir · `"a"` acrescentar
-- **Escrever:** `fprintf()` · `fputs()`
-- **Ler:** `fscanf()` · `fgets()` · `fgetc()`
-- **Voltar ao início:** `rewind(arquivo);`
-- **Fechar:** `fclose(arquivo);`
+Um sistema precisa calcular o valor final de diversos produtos. A mesma fórmula aparece em arquivos diferentes (`vendas.c`, `carrinho.c`, `relatorio.c`, `estoque.c`):
 
-**Lembretes importantes:**
-- Teste o retorno da leitura (`fscanf() == 2`, `fgets() != NULL`).
-- Use um formato compatível com os dados do arquivo.
-- Caminho relativo = diretório de trabalho do programa.
+```c
+valor_final = preco - preco * desconto / 100.0;
+```
 
-> 🏆 **Regra de ouro:** todo arquivo aberto deve ser verificado (`NULL`) e fechado (`fclose`). Cuidado: `"w"` apaga o conteúdo anterior.
+Para discutir:
+- O que acontece se a regra de desconto mudar?
+- Quantos lugares precisarão ser alterados?
+- E se esquecermos de alterar uma das cópias?
+- Como poderíamos escrever essa regra apenas uma vez?
 
+> 💡 **Ideia-chave:** regra repetida em vários lugares é manutenção difícil e risco de inconsistência. A solução é escrever a regra **uma vez** e **reutilizá-la**.
+
+### Decomposição e modularização
+
+Imagine um **sistema acadêmico** completo. Em vez de resolver tudo ao mesmo tempo, dividimos em partes: cadastrar o aluno, calcular a média, verificar a frequência, determinar a situação e gerar o relatório.
+
+- **Decomposição** (pilar do pensamento computacional): dividir um problema maior em problemas menores e mais administráveis.
+- **Modularizar:** aplicar a decomposição ao programa, dividindo-o em pequenas **funções**, cada uma responsável por uma tarefa específica (`cadastrar_aluno()`, `calcular_media()`, `verificar_frequencia()`, `gerar_relatorio()`).
+
+**Benefícios da modularização:**
+- código mais organizado;
+- maior reutilização;
+- menos repetição;
+- testes mais simples;
+- manutenção facilitada;
+- melhor compreensão da solução.
+
+> 💡 Em vez de pensar em um programa gigante, pensamos em um **conjunto de pequenas soluções** que, juntas, resolvem o problema. Em C, uma das principais formas de modularização é o uso de **funções**.
+
+### Analogia da máquina de café
+
+Quem usa uma máquina de café não precisa conhecer os detalhes internos: só precisa saber quais dados fornecer, qual operação solicitar e qual resultado será produzido.
+
+| Máquina de café | Função |
+|---|---|
+| ingredientes/opções | parâmetros |
+| processamento interno | corpo da função |
+| bebida produzida | retorno |
+| botão escolhido | chamada |
+
+> 💡 Uma função **encapsula** uma tarefa e permite utilizá-la sem conhecer todos os detalhes de sua implementação.
+
+### Você já utiliza funções
+
+Desde os primeiros programas usamos funções: `printf("Olá!");` (saída), `scanf("%d", &idade);` (entrada), `fopen("dados.txt", "r");` e `fclose(arquivo);` (arquivos). Todo programa em C também possui uma função especial, a `main`:
+
+```c
+int main(void)
+{
+    return 0;
+}
+```
+
+> 💡 A novidade não está em **usar** funções, mas em aprender a **criar nossas próprias funções** e modularizar nossas implementações.
+
+### O que é uma função?
+
+Uma **função** é um bloco de código identificado por um nome e responsável por realizar uma tarefa específica.
+
+Uma função pode:
+- receber dados (parâmetros) para realizar a tarefa;
+- executar instruções para processar os dados recebidos;
+- retornar um resultado (valor) após o processamento;
+- ser reutilizada e chamada várias vezes durante a execução do programa.
+
+Fluxo geral: **Dados (entrada) → Função (processamento) → Resultado (saída)**
+
+### Anatomia de uma função
+
+**Em pseudocódigo:**
+```
+real calcula_area(real base, real altura)
+    real area
+    area = base * altura / 2
+    retorne (area)
+fim
+```
+
+**Em C:**
+```c
+float calcular_area(float base, float altura)
+{
+    float area;
+    area = base * altura / 2;
+    return area;
+}
+```
+
+| Parte | No exemplo |
+|---|---|
+| Tipo retornado | `float` |
+| Nome da função | `calcular_area` |
+| Lista de parâmetros | `(float base, float altura)` |
+| Bloco de instruções | o que está entre `{ ... }` |
+
+### Chamando uma função
+
+Depois de criar uma função, precisamos **chamá-la**:
+
+```c
+area = calcular_area(5.0, 3.0);
+```
+
+1. `main()` chama `calcular_area(5.0, 3.0)`;
+2. a função calcula `15.0`;
+3. a função retorna `15.0` ao ponto da chamada;
+4. o programa continua.
+
+> 💡 Ao chamar uma função, o programa **desvia temporariamente o fluxo**, **executa a função** e depois **retorna** ao ponto da chamada.
+
+> ⚠️ **Erro clássico:** "por que minha função não retorna nada?" Provavelmente porque ela foi **definida, mas nunca chamada**.
+
+### Funções sem retorno (`void`)
+
+Nem toda função precisa produzir um valor. Uma função pode simplesmente **executar uma ação**. Quando não existe valor a retornar, utilizamos `void`.
+
+```c
+void exibir_linha(void)
+{
+    printf("---------------------------\n");
+}
+
+exibir_linha();   // chamada
+```
+
+### Argumentos × parâmetros
+
+```c
+float calcular_frete(float peso);   // na definição: peso é um PARÂMETRO
+
+frete = calcular_frete(peso);       // na chamada: peso é um ARGUMENTO
+```
+
+- **Parâmetro:** a variável declarada na **definição** da função.
+- **Argumento:** o valor passado na **chamada** da função.
+
+### Planejando uma função antes de codificar
+
+Antes de escrever o código, defina: **nome**, **parâmetros** e **tipo de retorno**.
+
+| Problema | Entrada | Saída |
+|---|---|---|
+| Converter Celsius para Fahrenheit | temperatura | temperatura convertida |
+| Mostrar um menu | nenhuma | nenhuma |
+| Determinar o maior entre dois valores | dois inteiros | maior inteiro |
+
+### Parâmetros e ponteiros: o que acontece quando a função altera o parâmetro?
+
+```c
+#include <stdio.h>
+
+void dobro(int numero){
+    numero = numero*2;
+}
+
+int main()
+{
+    int numero;
+    printf("Digite um numero inteiro: ");
+    scanf("%d", &numero);
+
+    dobro(numero);
+
+    printf("O dobro do numero digitado eh: %d\n", numero);
+    return 0;
+}
+```
+
+Se o usuário digitar `5`, a saída será **5** (e não 10).
+
+**Por quê?** Quando fazemos a chamada `dobro(numero)`, a função recebe uma **cópia do valor**. Apenas a variável local `numero` (o parâmetro) é modificada; a variável original no `main` continua valendo 5.
+
+**Consequências:**
+- Em C, os parâmetros **recebem valores**.
+- A função altera **somente a variável local**.
+- Funções podem utilizar dados do programa principal **sem necessariamente modificá-los**.
+
+### Escopo de variável
+
+Uma **variável local** só existe (é visível) dentro do bloco em que foi declarada.
+
+```c
+void exemplo(void)
+{
+    int x = 10;
+}
+
+int main(void)
+{
+    printf("%d", x);   // ERRO de compilação: x está fora do escopo
+}
+```
+
+Duas variáveis locais com o **mesmo nome** em funções diferentes são **variáveis diferentes**:
+
+```c
+void funcao_a(void)
+{
+    int valor = 10;
+}
+
+void funcao_b(void)
+{
+    int valor = 20;
+}
+```
+
+> 💡 Variáveis locais existem apenas no bloco em que foram declaradas. Nomes iguais em funções diferentes representam variáveis diferentes.
+
+### Parâmetro por valor × parâmetro por referência
+
+| | Por valor | "Por referência" |
+|---|---|---|
+| O que a função recebe | uma **cópia** do valor | o **endereço** da variável |
+| Alterações afetam | apenas a variável local | a variável original |
+| Como é feito | parâmetro comum | **ponteiros** |
+| Chamada | `alterar(numero);` | `alterar(&numero);` |
+
+```c
+// por valor
+void alterar(int valor)
+{
+    valor = 100;       // só a cópia muda
+}
+
+// por referência (com ponteiro)
+void alterar(int *valor)
+{
+    *valor = 100;      // altera a variável original
+}
+```
+
+> 💡 **Em C, tudo é passado por valor.** Didaticamente dizemos "passagem por referência", mas o que é passado é o **endereço** da variável. Com ponteiros e arrays, o valor passado permite **acessar os dados originais**.
+
+### Por que usar ponteiros em parâmetros?
+
+Eles permitem que uma função:
+1. **altere variáveis do chamador**;
+2. **produza mais de um resultado** (ex.: soma e média);
+3. **manipule estruturas maiores** sem criar cópias desnecessárias;
+4. **trabalhe com vetores, strings e estruturas de dados**.
+
+**Exemplo clássico: trocar o conteúdo de duas variáveis**
+
+```c
+void trocar(int *a, int *b){
+    int auxiliar;
+    auxiliar = *a;
+    *a = *b;
+    *b = auxiliar;
+}
+
+trocar(&x, &y);   // x e y trocam de valor
+```
+
+### Arrays como parâmetros: uma situação diferente
+
+```c
+void alterar(int vetor[])
+{
+    vetor[0] = 100;
+}
+
+int numeros[3] = {10, 20, 30};
+alterar(numeros);
+printf("%d", numeros[0]);   // Resultado: 100
+```
+
+Por que o vetor original mudou, se não usamos `&numeros`? Porque, como parâmetro de função, um array é tratado **essencialmente como um ponteiro para seus elementos**. Estas duas declarações representam a mesma ideia nesse contexto:
+
+```c
+void alterar(int vetor[])
+void alterar(int *vetor)
+```
+
+O nome `vetor` representa o **endereço do primeiro elemento**. Por isso a função **modifica o vetor original** (passagem por referência).
+
+> ⚠️ **Atenção:** o array não leva o próprio tamanho junto. Por isso, funções que recebem vetores costumam receber também a **quantidade** de elementos (ex.: `int quantidade`).
+
+### Protótipo, chamada e implementação
+
+O compilador precisa **conhecer uma função antes que ela seja utilizada**. O **protótipo** funciona como um aviso antecipado ao compilador: informa o **nome**, a **quantidade e os tipos dos parâmetros** e o **tipo retornado**. Ele não executa a função, apenas informa que ela existe.
+
+```c
+// Protótipo
+float calcular_area(float largura, float altura);
+
+int main(void)
+{
+    float resultado;
+
+    resultado = calcular_area(5.0, 3.0);   // chamada
+
+    printf("Área = %.2f\n", resultado);
+
+    return 0;
+}
+
+// Implementação
+float calcular_area(float largura, float altura)
+{
+    return largura * altura;
+}
+```
+
+Fluxo: **protótipo → `main()` → chamada da função → implementação**.
+
+> 💡 Em C, não é obrigatório escrever um protótipo separado para toda função. Porém, em C moderno, **não é uma boa prática chamar a função antes de ela ter sido declarada**.
+
+### Um novo problema: estruturas heterogêneas
+
+Já sabemos guardar vários valores do mesmo tipo em um array (`float notas[10];`). Arrays são estruturas **homogêneas**. Mas como representar um **aluno**?
+
+| Campo | Tipo |
+|---|---|
+| nome | texto |
+| rgm | inteiro |
+| nota | real |
+| frequência | real |
+
+Os dados têm **tipos diferentes**, mas pertencem à **mesma entidade**.
+
+### O que é uma `struct`?
+
+Uma `struct` permite **agrupar dados de diferentes tipos** em uma única estrutura. Ela modela um **registro** composto por vários atributos relacionados.
+
+```c
+struct aluno
+{
+    char nome[50];
+    int rgm;
+    float media;
+};
+
+struct aluno aluno1;   // declaração de uma variável
+```
+
+Acessamos os campos com o **operador ponto** (`variavel.campo`):
+
+```c
+aluno1.rgm = 12345;
+aluno1.media = 8.5;
+
+printf("%d\n", aluno1.rgm);
+printf("%.2f\n", aluno1.media);
+```
+
+> ⚠️ **Cuidado:** o campo `nome` é um array de `char`. Strings não recebem valor com `=` depois da declaração (usa-se, por exemplo, `strcpy()` de `<string.h>` ou leitura com `fgets`/`scanf`).
+
+### `typedef` para simplificar
+
+Podemos usar `typedef` para criar um **apelido** para a struct, deixando a declaração mais simples e legível:
+
+```c
+typedef struct
+{
+    char nome[50];
+    int rgm;
+    float media;
+} Aluno;
+
+Aluno aluno1;            // agora podemos declarar assim
+// em vez de: struct aluno aluno1;   (mais verboso)
+```
+
+### Funções também podem receber structs
+
+**1. Passando uma struct por valor** (a função recebe uma **cópia** da estrutura):
+
+```c
+void exibir_aluno(Aluno aluno)
+{
+    printf("Nome: %s\n", aluno.nome);
+    printf("RGM: %d\n", aluno.rgm);
+    printf("Média: %.2f\n", aluno.media);
+}
+
+exibir_aluno(aluno1);
+```
+
+- Para pequenas estruturas isso pode ser aceitável.
+- Para estruturas maiores, copiar todos os dados pode ser desnecessário.
+
+**2. Passando o endereço com ponteiros** (a função acessa a **estrutura original**):
+
+```c
+void atualizar_media(Aluno *aluno)
+{
+    aluno->media = 8.5;
+}
+
+atualizar_media(&aluno1);
+```
+
+Com ponteiro para struct, acessamos os campos com o operador **seta** (`->`).
+
+| Forma | O que acontece |
+|---|---|
+| **Por valor** | recebe uma cópia |
+| **Com ponteiro** | acessa a estrutura original |
+
+> 💡 Esse padrão será muito útil em C quando trabalharmos com estruturas maiores.
+
+### Sistema acadêmico com menu (desafio)
+
+Para aumentar ainda mais a modularização do sistema acadêmico, o programa é organizado com as seguintes funções:
+
+```c
+void calcular_media(Aluno *aluno);
+void cadastrar_aluno(Aluno alunos[], int *quantidade);
+void consultar_aluno(Aluno alunos[], int quantidade);
+void listar_alunos(Aluno alunos[], int quantidade);
+```
+
+Observe que o `quantidade` é passado **por ponteiro** em `cadastrar_aluno` (a função precisa alterá-lo) e **por valor** nas demais (elas só precisam ler). Em parâmetros de função, arrays já são tratados essencialmente como ponteiros para seus elementos; poderíamos utilizar também `(Aluno *alunos, int *quantidade)`.
