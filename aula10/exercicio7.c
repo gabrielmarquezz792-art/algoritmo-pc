@@ -54,7 +54,7 @@ int main() {
 }
 
 void calcular_media(Aluno *aluno) {
-    aluno->media = (aluno->nota1 + aluno->nota2) / 2;
+    aluno -> media = (aluno -> nota1 + aluno -> nota2) / 2;
 }
 
 void cadastrar_aluno(Aluno alunos[], int *quantidade) {
