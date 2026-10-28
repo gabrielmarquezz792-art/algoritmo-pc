@@ -126,5 +126,5 @@ void gerar_relatorio(float consumo[][DIAS], const char *laboratorios[], const ch
     }
     printf("Laboratorio com maior consumo semanal:\n%s - %.2f kWh\n\n", laboratorios[indice], maior_valor_lab);
 
-    printf("Registros acima de %d kWh: %d\n", LIMITE, contar_acima_limite(consumo, LABS, LIMITE));
+    printf("Registros acima de %d kWh: %d\n", LIMITE, contar_acima_limite(consumo, quantidade_laboratorios, LIMITE));
 }
