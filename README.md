@@ -32,6 +32,7 @@ O repositório está organizado por aula, com subpastas para cada exercício ou 
 - [Aula 8.1 - Desafio: Análise de Vendas de Chips de Telefonia Móvel](#aula-81---desafio-análise-de-vendas-de-chips-de-telefonia-móvel)
 - [Aula 9 - Manipulação de Arquivos](#aula-9---manipulação-de-arquivos)
 - [Aula 10 - Funções e Modularização](#aula-10---funções-e-modularização)
+- [Aula 10.1 - Desafio: Monitoramento de Consumo de Energia de Laboratórios](#aula-101---desafio-monitoramento-de-consumo-de-energia-de-laboratórios)
 
 ## Aula 2 - Introdução à Linguagem c
 
