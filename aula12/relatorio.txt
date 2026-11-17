@@ -1,0 +1,8 @@
+===== ECOMONITOR =====
+Media geral: 27.40 C
+Centro: media 29.00 C | alertas: 2
+Norte: media 28.00 C | alertas: 3
+Sul: media 25.20 C | alertas: 0
+Dia com maior media: Dia 5
+Total de alertas: 5
+=======================
